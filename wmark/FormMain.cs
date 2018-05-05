@@ -14,7 +14,8 @@ namespace wmark
 {
     public partial class FormMain : Form
     {
-        string m_path = string.Empty;
+        string m_pathSrc = string.Empty;
+        string m_pathDest = string.Empty;
         readonly string PATH_DEST = @"E:\usr\var\media\Watermarked";
         readonly string WMARK_FONT_FAMILY = "Georgia";
         readonly int WMARK_FONT_SIZE = 64;
@@ -24,8 +25,8 @@ namespace wmark
             InitializeComponent();
 
             // Disallow creation of new files using the FolderBrowserDialog.
-            this.folderBrowserDialog1.ShowNewFolderButton = false;
-            this.folderBrowserDialog1.Description = "Select the source images directory";
+            this.folderBrowserDialogSrc.ShowNewFolderButton = false;
+            this.folderBrowserDialogSrc.Description = "Select the source images directory";
         }
 
         private void process(string path)
@@ -177,13 +178,13 @@ namespace wmark
 
         #region Form events
 
-        private void btnWatermark_Click(object sender, EventArgs e)
+        private void btnSrcPath_Click(object sender, EventArgs e)
         {
             string path = String.Empty;
-            DialogResult result = folderBrowserDialog1.ShowDialog();
+            DialogResult result = folderBrowserDialogSrc.ShowDialog();
             if (result == DialogResult.OK)
             {
-                path = folderBrowserDialog1.SelectedPath;
+                path = folderBrowserDialogSrc.SelectedPath;
             }
 
             if (path == String.Empty)
@@ -192,9 +193,27 @@ namespace wmark
                 return;
             }
 
-            m_path = path;
+            m_pathSrc = path;
+            labelSrcPath.Text = path;
+        }
 
-            process(path);
+        private void btnDestPath_Click(object sender, EventArgs e)
+        {
+            string path = String.Empty;
+            DialogResult result = folderBrowserDialogDest.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                path = folderBrowserDialogSrc.SelectedPath;
+            }
+
+            if (path == String.Empty)
+            {
+                lblStatus.Text = "Invalid directory..";
+                return;
+            }
+
+            m_pathDest = path;
+            labelDestPath.Text = path;
         }
 
         private void lblStatus_Click(object sender, EventArgs e)
@@ -214,7 +233,7 @@ namespace wmark
 
         private void btnRepeat_Click(object sender, EventArgs e)
         {
-            process(m_path);
+            process(m_pathSrc);
         }
 
         #endregion Form events 
