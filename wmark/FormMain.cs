@@ -15,13 +15,15 @@ namespace wmark
 {
     public partial class FormMain : Form
     {
+        // A few read only variables
+        readonly string WMARK_FONT_FAMILY = "Georgia";
+        readonly int WMARK_FONT_SIZE = 64;
+
+        // Member variables
         string m_pathSrc = string.Empty;
         string m_pathDest = string.Empty;
         string m_prefix = string.Empty;
         string m_body = string.Empty;
-
-        readonly string WMARK_FONT_FAMILY = "Georgia";
-        readonly int WMARK_FONT_SIZE = 64;
 
         public FormMain()
         {
@@ -45,7 +47,10 @@ namespace wmark
             textBoxBody.Text = string.IsNullOrEmpty(m_body) ? "© Me" : m_body;
             textBoxPrefix.Text = string.IsNullOrEmpty(m_prefix) ? "wm_" : m_prefix;
 
+            // Initialize background worker
             this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            this.backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
         }
@@ -56,9 +61,6 @@ namespace wmark
             Image img = null;
             string pathSource = String.Empty;
             string pathTarget = String.Empty;
-
-            // Clear status
-            //lblStatus.Text = String.Empty;
 
             // Member variables
             m_body = textBoxBody.Text;
@@ -81,13 +83,24 @@ namespace wmark
                 foreach (string e in imgExtensions)
                 {
                     FileInfo[] folder = dir.GetFiles(e, SearchOption.AllDirectories);
+
+                    int totalfiles = folder.Length;
+
                     foreach (FileInfo file in folder)
                     {
+                        // Check for cancellation from parent thread
+                        // TODO this.backgroundWorker1.CancelAsync();
+                        if (bw.CancellationPending)
+                            break;
+
                         c++;
-                        if(c % 100 == 0)
-                            Debug.Print(string.Format("Processing {0}", c));
-                        //lblStatus.Text = string.Format("Processing {0}", c);
-                        //lblStatus.Refresh();
+                        double progress = (double)c / (double)totalfiles;
+                        bw.ReportProgress((int)(progress * 100));
+
+                        // Debug
+                        if (c % 100 == 0)
+                            Debug.Print(string.Format("Processing file {0}", c));
+
                         using (FileStream fs = file.OpenRead())
                         {
                             pathSource = string.Concat(m_pathSrc, @"\", file.Name);
@@ -144,13 +157,10 @@ namespace wmark
                     }
                 }
 
-                //lblStatus.Text = "Processing Completed";
                 Debug.Print("Processing Completed");
             }
             catch (Exception ex)
             {
-                //lblStatus.Text = "An error occured";
-                //MessageBox.Show(ex.ToString(), "An error occured");
                 Debug.Print(ex.ToString());
             }
             finally
@@ -180,7 +190,7 @@ namespace wmark
             Image img = Image.FromStream(fs);
             Font font = new Font(WMARK_FONT_FAMILY, WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
 
-            //Adds a transparent watermark with an 100 alpha value.
+            //Adds a white watermark with an 100 alpha value.
             Color color = Color.FromArgb(100, 255, 255, 255);
 
             //The position where to draw the watermark on the image
@@ -274,7 +284,16 @@ namespace wmark
 
         private void btnRepeat_Click(object sender, EventArgs e)
         {
-            this.backgroundWorker1.RunWorkerAsync(chkboxMaintMode.Checked);
+            if (this.backgroundWorker1.IsBusy)
+            {
+                btnRepeat.Text = "CANCELLING...";
+                this.backgroundWorker1.CancelAsync();
+            }
+            else
+            {
+                btnRepeat.Text = "CANCEL";
+                this.backgroundWorker1.RunWorkerAsync(chkboxMaintMode.Checked);
+            }
         }
 
         private void textBoxPrefix_TextChanged(object sender, EventArgs e)
@@ -304,6 +323,12 @@ namespace wmark
             }
         }
 
+        private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            lblStatus.Text = string.Format("Process is {0}% complete", e.ProgressPercentage);
+            lblStatus.Refresh();
+        }
+
         // This event handler demonstrates how to interpret 
         // the outcome of the asynchronous operation implemented
         // in the DoWork event handler.
@@ -314,20 +339,23 @@ namespace wmark
             if (e.Cancelled)
             {
                 // The user canceled the operation.
-                MessageBox.Show("Operation was canceled");
+                lblStatus.Text = "Operation was canceled";
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation.
+                lblStatus.Text = "An error occurred";
                 string msg = String.Format("An error occurred: {0}", e.Error.Message);
                 MessageBox.Show(msg);
             }
             else
             {
                 // The operation completed normally.
-                string msg = String.Format("Result = {0}", e.Result);
-                MessageBox.Show(msg);
+                //string msg = String.Format("Result = {0}", e.Result);
+                lblStatus.Text = "Operation completed";
             }
+
+            btnRepeat.Text = "GO";
         }
     }
 }

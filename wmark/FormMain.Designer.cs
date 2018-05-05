@@ -156,6 +156,8 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnSrcPath);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "FormMain";
             this.Text = "Watermarker";
             this.ResumeLayout(false);
