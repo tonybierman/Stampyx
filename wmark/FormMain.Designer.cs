@@ -40,6 +40,7 @@
             this.btnDestPath = new System.Windows.Forms.Button();
             this.labelDestPath = new System.Windows.Forms.Label();
             this.folderBrowserDialogDest = new System.Windows.Forms.FolderBrowserDialog();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // btnSrcPath
@@ -176,6 +177,7 @@
         private System.Windows.Forms.Button btnDestPath;
         private System.Windows.Forms.Label labelDestPath;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogDest;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

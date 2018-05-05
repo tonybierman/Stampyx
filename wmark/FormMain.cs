@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,7 +20,6 @@ namespace wmark
         string m_prefix = string.Empty;
         string m_body = string.Empty;
 
-        readonly string PATH_DEST = @"E:\usr\var\media\Watermarked";
         readonly string WMARK_FONT_FAMILY = "Georgia";
         readonly int WMARK_FONT_SIZE = 64;
 
@@ -44,9 +44,13 @@ namespace wmark
             this.folderBrowserDialogDest.SelectedPath = m_pathDest;
             textBoxBody.Text = string.IsNullOrEmpty(m_body) ? "© Me" : m_body;
             textBoxPrefix.Text = string.IsNullOrEmpty(m_prefix) ? "wm_" : m_prefix;
+
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
         }
 
-        private void process(string path)
+        private int process(BackgroundWorker bw, bool isMaint)
         {
             // Method variables
             Image img = null;
@@ -54,25 +58,25 @@ namespace wmark
             string pathTarget = String.Empty;
 
             // Clear status
-            lblStatus.Text = String.Empty;
+            //lblStatus.Text = String.Empty;
 
             // Member variables
             m_body = textBoxBody.Text;
             m_prefix = textBoxPrefix.Text;
 
-            // Save settings
+            // Save general settings
             Properties.Settings.Default.Prefix = m_prefix;
             Properties.Settings.Default.Body = m_body;
             Properties.Settings.Default.Save();
 
             try
             {
-                if (!Directory.Exists(PATH_DEST))
-                    throw new FileNotFoundException(PATH_DEST);
+                if (!Directory.Exists(m_pathDest))
+                    throw new FileNotFoundException(m_pathDest);
 
                 string[] imgExtensions = { "*.jpg" };
                 List<FileInfo> files = new List<FileInfo>();
-                DirectoryInfo dir = new DirectoryInfo(path);
+                DirectoryInfo dir = new DirectoryInfo(m_pathSrc);
                 int c = 0;
                 foreach (string e in imgExtensions)
                 {
@@ -80,23 +84,25 @@ namespace wmark
                     foreach (FileInfo file in folder)
                     {
                         c++;
-                        lblStatus.Text = string.Format("Processing {0}", c);
-                        lblStatus.Refresh();
+                        if(c % 100 == 0)
+                            Debug.Print(string.Format("Processing {0}", c));
+                        //lblStatus.Text = string.Format("Processing {0}", c);
+                        //lblStatus.Refresh();
                         using (FileStream fs = file.OpenRead())
                         {
-                            pathSource = string.Concat(path, @"\", file.Name);
+                            pathSource = string.Concat(m_pathSrc, @"\", file.Name);
 
                             // Skip watermarks images created by this app
                             if (file.Name.StartsWith(m_prefix))
                                 continue;
 
                             // Path of the watermarked image to be created
-                            pathTarget = string.Concat(PATH_DEST, @"\", m_prefix, file.Name);
+                            pathTarget = string.Concat(m_pathDest, @"\", m_prefix, file.Name);
                             bool targetExists = File.Exists(pathTarget);
 
                             // If maintenance mode and watermarked image already exists,
                             // then skip it.  Otherwise, delete if it exists.
-                            if (targetExists && chkboxMaintMode.Checked)
+                            if (targetExists && isMaint)
                                 continue;
                             else if (targetExists)
                                 File.Delete(pathTarget);
@@ -138,18 +144,22 @@ namespace wmark
                     }
                 }
 
-                lblStatus.Text = "Processing Completed";
+                //lblStatus.Text = "Processing Completed";
+                Debug.Print("Processing Completed");
             }
             catch (Exception ex)
             {
-                lblStatus.Text = "An error occured";
-                MessageBox.Show(ex.ToString(), "An error occured");
+                //lblStatus.Text = "An error occured";
+                //MessageBox.Show(ex.ToString(), "An error occured");
+                Debug.Print(ex.ToString());
             }
             finally
             {
                 if (img != null)
                     img.Dispose();
             }
+
+            return 0;
         }
 
         private ImageCodecInfo GetEncoder(ImageFormat format)
@@ -200,8 +210,6 @@ namespace wmark
             gr.Dispose();
 
             // Save to memory stream
-            
-
             img.Save(outputStream, ImageFormat.Jpeg);
         }
 
@@ -234,7 +242,7 @@ namespace wmark
             DialogResult result = folderBrowserDialogDest.ShowDialog();
             if (result == DialogResult.OK)
             {
-                path = folderBrowserDialogSrc.SelectedPath;
+                path = folderBrowserDialogDest.SelectedPath;
             }
 
             if (path == String.Empty)
@@ -266,14 +274,60 @@ namespace wmark
 
         private void btnRepeat_Click(object sender, EventArgs e)
         {
-            process(m_pathSrc);
+            this.backgroundWorker1.RunWorkerAsync(chkboxMaintMode.Checked);
         }
-
-        #endregion Form events 
 
         private void textBoxPrefix_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        #endregion Form events 
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            // Do not access the form's BackgroundWorker reference directly.
+            // Instead, use the reference provided by the sender parameter.
+            BackgroundWorker bw = sender as BackgroundWorker;
+
+            // Extract the argument.
+            bool arg = (bool)e.Argument;
+
+            // Start the time-consuming operation.
+            e.Result = process(bw, arg);
+
+            // If the operation was canceled by the user, 
+            // set the DoWorkEventArgs.Cancel property to true.
+            if (bw.CancellationPending)
+            {
+                e.Cancel = true;
+            }
+        }
+
+        // This event handler demonstrates how to interpret 
+        // the outcome of the asynchronous operation implemented
+        // in the DoWork event handler.
+        private void backgroundWorker1_RunWorkerCompleted(
+            object sender,
+            RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                // The user canceled the operation.
+                MessageBox.Show("Operation was canceled");
+            }
+            else if (e.Error != null)
+            {
+                // There was an error during the operation.
+                string msg = String.Format("An error occurred: {0}", e.Error.Message);
+                MessageBox.Show(msg);
+            }
+            else
+            {
+                // The operation completed normally.
+                string msg = String.Format("Result = {0}", e.Result);
+                MessageBox.Show(msg);
+            }
         }
     }
 }
