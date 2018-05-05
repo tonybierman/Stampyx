@@ -16,6 +16,9 @@ namespace wmark
     {
         string m_pathSrc = string.Empty;
         string m_pathDest = string.Empty;
+        string m_prefix = string.Empty;
+        string m_body = string.Empty;
+
         readonly string PATH_DEST = @"E:\usr\var\media\Watermarked";
         readonly string WMARK_FONT_FAMILY = "Georgia";
         readonly int WMARK_FONT_SIZE = 64;
@@ -27,14 +30,40 @@ namespace wmark
             // Disallow creation of new files using the FolderBrowserDialog.
             this.folderBrowserDialogSrc.ShowNewFolderButton = false;
             this.folderBrowserDialogSrc.Description = "Select the source images directory";
+
+            // Load settings to member variables
+            m_pathSrc = Properties.Settings.Default.PathSource;
+            m_pathDest = Properties.Settings.Default.PathDest;
+            m_prefix = Properties.Settings.Default.Prefix;
+            m_body = Properties.Settings.Default.Body;
+
+            // Load settings to UI
+            labelDestPath.Text = m_pathDest;
+            labelSrcPath.Text = m_pathSrc;
+            this.folderBrowserDialogSrc.SelectedPath = m_pathSrc;
+            this.folderBrowserDialogDest.SelectedPath = m_pathDest;
+            textBoxBody.Text = string.IsNullOrEmpty(m_body) ? "© Me" : m_body;
+            textBoxPrefix.Text = string.IsNullOrEmpty(m_prefix) ? "wm_" : m_prefix;
         }
 
         private void process(string path)
         {
-            lblStatus.Text = String.Empty;
+            // Method variables
             Image img = null;
             string pathSource = String.Empty;
             string pathTarget = String.Empty;
+
+            // Clear status
+            lblStatus.Text = String.Empty;
+
+            // Member variables
+            m_body = textBoxBody.Text;
+            m_prefix = textBoxPrefix.Text;
+
+            // Save settings
+            Properties.Settings.Default.Prefix = m_prefix;
+            Properties.Settings.Default.Body = m_body;
+            Properties.Settings.Default.Save();
 
             try
             {
@@ -58,11 +87,11 @@ namespace wmark
                             pathSource = string.Concat(path, @"\", file.Name);
 
                             // Skip watermarks images created by this app
-                            if (file.Name.StartsWith(textBoxPrefix.Text))
+                            if (file.Name.StartsWith(m_prefix))
                                 continue;
 
                             // Path of the watermarked image to be created
-                            pathTarget = string.Concat(PATH_DEST, @"\", textBoxPrefix.Text, file.Name);
+                            pathTarget = string.Concat(PATH_DEST, @"\", m_prefix, file.Name);
                             bool targetExists = File.Exists(pathTarget);
 
                             // If maintenance mode and watermarked image already exists,
@@ -74,7 +103,7 @@ namespace wmark
 
                             // Create the watermarked image
                             Stream outputStream = new MemoryStream();
-                            AddWatermark(fs, textBoxBody.Text, outputStream);
+                            AddWatermark(fs, m_body, outputStream);
                             img = Image.FromStream(outputStream);
                             using (Bitmap savingImage = new Bitmap(img.Width, img.Height, img.PixelFormat))
                             {
@@ -195,6 +224,8 @@ namespace wmark
 
             m_pathSrc = path;
             labelSrcPath.Text = path;
+            Properties.Settings.Default.PathSource = path;
+            Properties.Settings.Default.Save();
         }
 
         private void btnDestPath_Click(object sender, EventArgs e)
@@ -214,6 +245,8 @@ namespace wmark
 
             m_pathDest = path;
             labelDestPath.Text = path;
+            Properties.Settings.Default.PathDest = path;
+            Properties.Settings.Default.Save();
         }
 
         private void lblStatus_Click(object sender, EventArgs e)

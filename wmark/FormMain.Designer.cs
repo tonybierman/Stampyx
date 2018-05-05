@@ -78,7 +78,6 @@
             this.textBoxPrefix.Name = "textBoxPrefix";
             this.textBoxPrefix.Size = new System.Drawing.Size(53, 20);
             this.textBoxPrefix.TabIndex = 3;
-            this.textBoxPrefix.Text = "wm_";
             this.textBoxPrefix.TextChanged += new System.EventHandler(this.textBoxPrefix_TextChanged);
             // 
             // chkboxMaintMode
@@ -99,7 +98,6 @@
             this.textBoxBody.Name = "textBoxBody";
             this.textBoxBody.Size = new System.Drawing.Size(162, 20);
             this.textBoxBody.TabIndex = 5;
-            this.textBoxBody.Text = "© Tony Bierman";
             this.textBoxBody.TextChanged += new System.EventHandler(this.textBoxBody_TextChanged);
             // 
             // btnRepeat
