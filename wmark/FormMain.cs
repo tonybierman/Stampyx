@@ -292,6 +292,7 @@ namespace wmark
 
         private void btnRepeat_Click(object sender, EventArgs e)
         {
+            DisableUI();
             if (this.backgroundWorker1.IsBusy)
             {
                 btnRepeat.Text = "CANCELLING...";
@@ -364,11 +365,30 @@ namespace wmark
             }
 
             btnRepeat.Text = "GO";
+            EnableUI();
         }
 
         private void labelSrcPath_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void DisableUI()
+        {
+            btnDestPath.Enabled = false;
+            btnSrcPath.Enabled = false;
+            textBoxBody.Enabled = false;
+            textBoxPrefix.Enabled = false;
+            chkboxMaintMode.Enabled = false;
+        }
+
+        private void EnableUI()
+        {
+            btnDestPath.Enabled = true;
+            btnSrcPath.Enabled = true;
+            textBoxBody.Enabled = true;
+            textBoxPrefix.Enabled = true;
+            chkboxMaintMode.Enabled = false;
         }
     }
 }
