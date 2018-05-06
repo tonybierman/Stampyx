@@ -190,6 +190,14 @@ namespace wmark
             Image img = Image.FromStream(fs);
             Font font = new Font(WMARK_FONT_FAMILY, WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
 
+            // DEBUG: Get the PropertyItems property from image.
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            PropertyItem[] propItems = img.PropertyItems;
+            foreach (PropertyItem propItem in propItems)
+            {
+                Debug.WriteLine("   iD: 0x" + propItem.Id.ToString("x") + " " + encoding.GetString(propItem.Value));
+            }
+
             //Adds a white watermark with an 100 alpha value.
             Color color = Color.FromArgb(100, 255, 255, 255);
 
@@ -213,7 +221,7 @@ namespace wmark
                 gr.DrawImage(img1, new Rectangle(0, 0, img.Width, img.Height));//, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel);
                 img1.Dispose();
 
-                lblStatus.Text = ex.Message;
+                toolStripStatusLabel1.Text = ex.Message;
             }
 
             gr.DrawString(watermarkText, font, sbrush, pt);
@@ -236,7 +244,7 @@ namespace wmark
 
             if (path == String.Empty)
             {
-                lblStatus.Text = "Invalid directory..";
+                toolStripStatusLabel1.Text = "Invalid directory..";
                 return;
             }
 
@@ -257,7 +265,7 @@ namespace wmark
 
             if (path == String.Empty)
             {
-                lblStatus.Text = "Invalid directory..";
+                toolStripStatusLabel1.Text = "Invalid directory..";
                 return;
             }
 
@@ -267,7 +275,7 @@ namespace wmark
             Properties.Settings.Default.Save();
         }
 
-        private void lblStatus_Click(object sender, EventArgs e)
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
 
         }
@@ -325,8 +333,8 @@ namespace wmark
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            lblStatus.Text = string.Format("Process is {0}% complete", e.ProgressPercentage);
-            lblStatus.Refresh();
+            toolStripStatusLabel1.Text = string.Format("Process is {0}% complete", e.ProgressPercentage);
+            toolStripStatusLabel1.Invalidate();
         }
 
         // This event handler demonstrates how to interpret 
@@ -339,12 +347,12 @@ namespace wmark
             if (e.Cancelled)
             {
                 // The user canceled the operation.
-                lblStatus.Text = "Operation was canceled";
+                toolStripStatusLabel1.Text = "Operation was canceled";
             }
             else if (e.Error != null)
             {
                 // There was an error during the operation.
-                lblStatus.Text = "An error occurred";
+                toolStripStatusLabel1.Text = "An error occurred";
                 string msg = String.Format("An error occurred: {0}", e.Error.Message);
                 MessageBox.Show(msg);
             }
@@ -352,10 +360,15 @@ namespace wmark
             {
                 // The operation completed normally.
                 //string msg = String.Format("Result = {0}", e.Result);
-                lblStatus.Text = "Operation completed";
+                toolStripStatusLabel1.Text = "Operation completed";
             }
 
             btnRepeat.Text = "GO";
+        }
+
+        private void labelSrcPath_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

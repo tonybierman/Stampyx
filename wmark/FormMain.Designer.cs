@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.btnSrcPath = new System.Windows.Forms.Button();
-            this.lblStatus = new System.Windows.Forms.Label();
             this.folderBrowserDialogSrc = new System.Windows.Forms.FolderBrowserDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxPrefix = new System.Windows.Forms.TextBox();
@@ -41,43 +40,39 @@
             this.labelDestPath = new System.Windows.Forms.Label();
             this.folderBrowserDialogDest = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.groupBox1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSrcPath
             // 
-            this.btnSrcPath.Location = new System.Drawing.Point(68, 12);
+            this.btnSrcPath.Location = new System.Drawing.Point(12, 12);
             this.btnSrcPath.Name = "btnSrcPath";
-            this.btnSrcPath.Size = new System.Drawing.Size(162, 23);
+            this.btnSrcPath.Size = new System.Drawing.Size(138, 23);
             this.btnSrcPath.TabIndex = 0;
             this.btnSrcPath.Text = "Select source folder";
             this.btnSrcPath.UseVisualStyleBackColor = true;
             this.btnSrcPath.Click += new System.EventHandler(this.btnSrcPath_Click);
             // 
-            // lblStatus
-            // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(65, 268);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(95, 13);
-            this.lblStatus.TabIndex = 1;
-            this.lblStatus.Text = "Status: Not run yet";
-            this.lblStatus.Click += new System.EventHandler(this.lblStatus_Click);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(65, 134);
+            this.label1.Location = new System.Drawing.Point(6, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 13);
+            this.label1.Size = new System.Drawing.Size(197, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "Prefix new images with";
+            this.label1.Text = "Prefix watermarked image filenames with";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBoxPrefix
             // 
-            this.textBoxPrefix.Location = new System.Drawing.Point(177, 131);
+            this.textBoxPrefix.Location = new System.Drawing.Point(209, 17);
             this.textBoxPrefix.Name = "textBoxPrefix";
-            this.textBoxPrefix.Size = new System.Drawing.Size(53, 20);
+            this.textBoxPrefix.Size = new System.Drawing.Size(264, 20);
             this.textBoxPrefix.TabIndex = 3;
             this.textBoxPrefix.TextChanged += new System.EventHandler(this.textBoxPrefix_TextChanged);
             // 
@@ -86,26 +81,26 @@
             this.chkboxMaintMode.AutoSize = true;
             this.chkboxMaintMode.Checked = true;
             this.chkboxMaintMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkboxMaintMode.Location = new System.Drawing.Point(68, 157);
+            this.chkboxMaintMode.Location = new System.Drawing.Point(12, 172);
             this.chkboxMaintMode.Name = "chkboxMaintMode";
-            this.chkboxMaintMode.Size = new System.Drawing.Size(168, 17);
+            this.chkboxMaintMode.Size = new System.Drawing.Size(204, 17);
             this.chkboxMaintMode.TabIndex = 4;
-            this.chkboxMaintMode.Text = "Run folder maintenance mode";
+            this.chkboxMaintMode.Text = "Run Watermarker in folder sync mode";
             this.chkboxMaintMode.UseVisualStyleBackColor = true;
             // 
             // textBoxBody
             // 
-            this.textBoxBody.Location = new System.Drawing.Point(68, 181);
+            this.textBoxBody.Location = new System.Drawing.Point(91, 41);
             this.textBoxBody.Name = "textBoxBody";
-            this.textBoxBody.Size = new System.Drawing.Size(162, 20);
+            this.textBoxBody.Size = new System.Drawing.Size(382, 20);
             this.textBoxBody.TabIndex = 5;
             this.textBoxBody.TextChanged += new System.EventHandler(this.textBoxBody_TextChanged);
             // 
             // btnRepeat
             // 
-            this.btnRepeat.Location = new System.Drawing.Point(68, 232);
+            this.btnRepeat.Location = new System.Drawing.Point(406, 172);
             this.btnRepeat.Name = "btnRepeat";
-            this.btnRepeat.Size = new System.Drawing.Size(162, 23);
+            this.btnRepeat.Size = new System.Drawing.Size(88, 23);
             this.btnRepeat.TabIndex = 6;
             this.btnRepeat.Text = "GO";
             this.btnRepeat.UseVisualStyleBackColor = true;
@@ -114,18 +109,19 @@
             // labelSrcPath
             // 
             this.labelSrcPath.AutoSize = true;
-            this.labelSrcPath.Location = new System.Drawing.Point(68, 38);
-            this.labelSrcPath.MaximumSize = new System.Drawing.Size(180, 32);
+            this.labelSrcPath.Location = new System.Drawing.Point(156, 17);
+            this.labelSrcPath.MaximumSize = new System.Drawing.Size(360, 32);
             this.labelSrcPath.Name = "labelSrcPath";
             this.labelSrcPath.Size = new System.Drawing.Size(41, 13);
             this.labelSrcPath.TabIndex = 7;
             this.labelSrcPath.Text = "Not set";
+            this.labelSrcPath.Click += new System.EventHandler(this.labelSrcPath_Click);
             // 
             // btnDestPath
             // 
-            this.btnDestPath.Location = new System.Drawing.Point(68, 68);
+            this.btnDestPath.Location = new System.Drawing.Point(12, 41);
             this.btnDestPath.Name = "btnDestPath";
-            this.btnDestPath.Size = new System.Drawing.Size(162, 23);
+            this.btnDestPath.Size = new System.Drawing.Size(138, 23);
             this.btnDestPath.TabIndex = 8;
             this.btnDestPath.Text = "Select destination folder";
             this.btnDestPath.UseVisualStyleBackColor = true;
@@ -134,32 +130,73 @@
             // labelDestPath
             // 
             this.labelDestPath.AutoSize = true;
-            this.labelDestPath.Location = new System.Drawing.Point(68, 94);
-            this.labelDestPath.MaximumSize = new System.Drawing.Size(180, 32);
+            this.labelDestPath.Location = new System.Drawing.Point(156, 41);
+            this.labelDestPath.MaximumSize = new System.Drawing.Size(360, 32);
             this.labelDestPath.Name = "labelDestPath";
             this.labelDestPath.Size = new System.Drawing.Size(41, 13);
             this.labelDestPath.TabIndex = 10;
             this.labelDestPath.Text = "Not set";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.textBoxBody);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.textBoxPrefix);
+            this.groupBox1.Location = new System.Drawing.Point(12, 80);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(482, 75);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Settings";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "Watermark text";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 208);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(506, 22);
+            this.statusStrip1.TabIndex = 12;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 17);
+            this.toolStripStatusLabel1.Text = "Not run yet";
+            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(303, 323);
+            this.ClientSize = new System.Drawing.Size(506, 230);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelDestPath);
             this.Controls.Add(this.btnDestPath);
+            this.Controls.Add(this.chkboxMaintMode);
             this.Controls.Add(this.labelSrcPath);
             this.Controls.Add(this.btnRepeat);
-            this.Controls.Add(this.textBoxBody);
-            this.Controls.Add(this.chkboxMaintMode);
-            this.Controls.Add(this.textBoxPrefix);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnSrcPath);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "FormMain";
-            this.Text = "Watermarker";
+            this.Text = "Watermarker |  A simple image watermarking tool";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -168,7 +205,6 @@
         #endregion
 
         private System.Windows.Forms.Button btnSrcPath;
-        private System.Windows.Forms.Label lblStatus;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogSrc;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxPrefix;
@@ -180,6 +216,10 @@
         private System.Windows.Forms.Label labelDestPath;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogDest;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
