@@ -54,7 +54,6 @@ namespace wmark
                     foreach (FileInfo file in folder)
                     {
                         // Check for cancellation from parent thread
-                        // TODO this.backgroundWorker1.CancelAsync();
                         if (bw.CancellationPending)
                             break;
 
