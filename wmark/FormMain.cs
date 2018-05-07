@@ -10,16 +10,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WatermarkerCore;
 
 namespace wmark
 {
     public partial class FormMain : Form
     {
         // Member variables
-        string m_pathSrc = string.Empty;
-        string m_pathDest = string.Empty;
-        string m_prefix = string.Empty;
-        string m_body = string.Empty;
+        //string m_pathSrc = string.Empty;
+        //string m_pathDest = string.Empty;
+        //string m_prefix = string.Empty;
+        //string m_body = string.Empty;
+
+        ProcessConfig m_config = new ProcessConfig();
 
         public FormMain()
         {
@@ -30,18 +33,18 @@ namespace wmark
             this.folderBrowserDialogSrc.Description = "Select the source images directory";
 
             // Load settings to member variables
-            m_pathSrc = Properties.Settings.Default.PathSource;
-            m_pathDest = Properties.Settings.Default.PathDest;
-            m_prefix = Properties.Settings.Default.Prefix;
-            m_body = Properties.Settings.Default.Body;
+            m_config.PathSrc = Properties.Settings.Default.PathSource;
+            m_config.PathDest = Properties.Settings.Default.PathDest;
+            m_config.Prefix = Properties.Settings.Default.Prefix;
+            m_config.Body = Properties.Settings.Default.Body;
 
             // Load settings to UI
-            labelDestPath.Text = m_pathDest;
-            labelSrcPath.Text = m_pathSrc;
-            this.folderBrowserDialogSrc.SelectedPath = m_pathSrc;
-            this.folderBrowserDialogDest.SelectedPath = m_pathDest;
-            textBoxBody.Text = string.IsNullOrEmpty(m_body) ? "© Me" : m_body;
-            textBoxPrefix.Text = string.IsNullOrEmpty(m_prefix) ? "wm_" : m_prefix;
+            labelDestPath.Text = m_config.PathDest;
+            labelSrcPath.Text = m_config.PathSrc;
+            this.folderBrowserDialogSrc.SelectedPath = m_config.PathSrc;
+            this.folderBrowserDialogDest.SelectedPath = m_config.PathDest;
+            textBoxBody.Text = string.IsNullOrEmpty(m_config.Body) ? "© Me" : m_config.Body;
+            textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? "wm_" : m_config.Prefix;
 
             // Initialize background worker
             this.backgroundWorker1.WorkerSupportsCancellation = true;
@@ -54,16 +57,17 @@ namespace wmark
         private int Process(BackgroundWorker bw, bool isMaint)
         {
             // Refresh a few salient member variables with UI data
-            m_body = textBoxBody.Text;
-            m_prefix = textBoxPrefix.Text;
+            m_config.Body = textBoxBody.Text;
+            m_config.Prefix = textBoxPrefix.Text;
+            m_config.IsMaint = isMaint;
 
             // Save a few general settings
-            Properties.Settings.Default.Prefix = m_prefix;
-            Properties.Settings.Default.Body = m_body;
+            Properties.Settings.Default.Prefix = m_config.Prefix;
+            Properties.Settings.Default.Body = m_config.Body;
             Properties.Settings.Default.Save();
 
             // Process files in background
-            return ImageHelper.ProcessFilesInBackground(bw, m_pathSrc, m_pathDest, m_prefix, m_body, isMaint);
+            return ImageHelper.ProcessFilesInBackground(bw, m_config);
         }
 
         #region Form events
@@ -83,7 +87,7 @@ namespace wmark
                 return;
             }
 
-            m_pathSrc = path;
+            m_config.PathSrc = path;
             labelSrcPath.Text = path;
             Properties.Settings.Default.PathSource = path;
             Properties.Settings.Default.Save();
@@ -104,7 +108,7 @@ namespace wmark
                 return;
             }
 
-            m_pathDest = path;
+            m_config.PathDest = path;
             labelDestPath.Text = path;
             Properties.Settings.Default.PathDest = path;
             Properties.Settings.Default.Save();
@@ -209,7 +213,7 @@ namespace wmark
             btnSrcPath.Enabled = true;
             textBoxBody.Enabled = true;
             textBoxPrefix.Enabled = true;
-            chkboxMaintMode.Enabled = false;
+            chkboxMaintMode.Enabled = true;
         }
 
         #endregion UI Helpers

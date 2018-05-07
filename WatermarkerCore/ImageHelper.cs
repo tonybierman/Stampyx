@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wmark
+namespace WatermarkerCore
 {
-    internal class ImageHelper
+    public class ImageHelper
     {
         public static readonly string WMARK_FONT_FAMILY = "Georgia";
         public static readonly int WMARK_FONT_SIZE = 64;
@@ -135,6 +135,11 @@ namespace wmark
             }
 
             return retval;
+        }
+
+        public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
+        {
+            return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.IsMaint);
         }
 
         public static void AddWatermark(FileStream fs, string watermarkText, Stream outputStream)
