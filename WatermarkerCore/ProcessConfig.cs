@@ -19,6 +19,7 @@ namespace WatermarkerCore
         bool m_isMaint = true;
         Color m_textColor = Color.White;
         Font m_font = new Font(ImageHelper.WMARK_FONT_FAMILY, ImageHelper.WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
+        WatermarkLocation m_markLocation = WatermarkLocation.LowerLeft;
 
         /// <summary>
         /// The folder containing original images
@@ -51,6 +52,14 @@ namespace WatermarkerCore
         /// </summary>
         public Color TextColor { get => m_textColor; set => m_textColor = value; }
 
+        /// <summary>
+        /// Font of watermark text
+        /// </summary>
         public Font TextFont { get => m_font; set => m_font = value; }
+
+        /// <summary>
+        /// Location of watermark
+        /// </summary>
+        public WatermarkLocation MarkLocation { get => m_markLocation; set => m_markLocation = value; }
     }
 }

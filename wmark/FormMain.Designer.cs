@@ -41,12 +41,13 @@
             this.folderBrowserDialogDest = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnFont = new System.Windows.Forms.Button();
             this.btnColor = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.btnFont = new System.Windows.Forms.Button();
+            this.btnLocation = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -74,7 +75,7 @@
             // 
             this.textBoxPrefix.Location = new System.Drawing.Point(209, 17);
             this.textBoxPrefix.Name = "textBoxPrefix";
-            this.textBoxPrefix.Size = new System.Drawing.Size(183, 20);
+            this.textBoxPrefix.Size = new System.Drawing.Size(154, 20);
             this.textBoxPrefix.TabIndex = 3;
             // 
             // chkboxMaintMode
@@ -82,7 +83,7 @@
             this.chkboxMaintMode.AutoSize = true;
             this.chkboxMaintMode.Checked = true;
             this.chkboxMaintMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkboxMaintMode.Location = new System.Drawing.Point(12, 172);
+            this.chkboxMaintMode.Location = new System.Drawing.Point(9, 78);
             this.chkboxMaintMode.Name = "chkboxMaintMode";
             this.chkboxMaintMode.Size = new System.Drawing.Size(204, 17);
             this.chkboxMaintMode.TabIndex = 4;
@@ -93,15 +94,15 @@
             // 
             this.textBoxBody.Location = new System.Drawing.Point(91, 41);
             this.textBoxBody.Name = "textBoxBody";
-            this.textBoxBody.Size = new System.Drawing.Size(301, 20);
+            this.textBoxBody.Size = new System.Drawing.Size(272, 20);
             this.textBoxBody.TabIndex = 5;
             this.textBoxBody.TextChanged += new System.EventHandler(this.textBoxBody_TextChanged);
             // 
             // btnRepeat
             // 
-            this.btnRepeat.Location = new System.Drawing.Point(406, 172);
+            this.btnRepeat.Location = new System.Drawing.Point(406, 210);
             this.btnRepeat.Name = "btnRepeat";
-            this.btnRepeat.Size = new System.Drawing.Size(88, 23);
+            this.btnRepeat.Size = new System.Drawing.Size(75, 23);
             this.btnRepeat.TabIndex = 6;
             this.btnRepeat.Text = "GO";
             this.btnRepeat.UseVisualStyleBackColor = true;
@@ -139,22 +140,34 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnLocation);
             this.groupBox1.Controls.Add(this.btnFont);
             this.groupBox1.Controls.Add(this.btnColor);
             this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.chkboxMaintMode);
             this.groupBox1.Controls.Add(this.textBoxBody);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.textBoxPrefix);
             this.groupBox1.Location = new System.Drawing.Point(12, 80);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(482, 75);
+            this.groupBox1.Size = new System.Drawing.Size(482, 111);
             this.groupBox1.TabIndex = 11;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
+            // btnFont
+            // 
+            this.btnFont.Location = new System.Drawing.Point(394, 19);
+            this.btnFont.Name = "btnFont";
+            this.btnFont.Size = new System.Drawing.Size(75, 23);
+            this.btnFont.TabIndex = 8;
+            this.btnFont.Text = "Font";
+            this.btnFont.UseVisualStyleBackColor = true;
+            this.btnFont.Click += new System.EventHandler(this.btnFont_Click);
+            // 
             // btnColor
             // 
-            this.btnColor.Location = new System.Drawing.Point(401, 41);
+            this.btnColor.Location = new System.Drawing.Point(394, 49);
             this.btnColor.Name = "btnColor";
             this.btnColor.Size = new System.Drawing.Size(75, 23);
             this.btnColor.TabIndex = 7;
@@ -175,7 +188,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 208);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 250);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(506, 22);
             this.statusStrip1.TabIndex = 12;
@@ -187,33 +200,33 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 17);
             this.toolStripStatusLabel1.Text = "Not run yet";
             // 
-            // btnFont
+            // btnLocation
             // 
-            this.btnFont.Location = new System.Drawing.Point(401, 17);
-            this.btnFont.Name = "btnFont";
-            this.btnFont.Size = new System.Drawing.Size(75, 23);
-            this.btnFont.TabIndex = 8;
-            this.btnFont.Text = "Font";
-            this.btnFont.UseVisualStyleBackColor = true;
-            this.btnFont.Click += new System.EventHandler(this.btnFont_Click);
+            this.btnLocation.Location = new System.Drawing.Point(394, 78);
+            this.btnLocation.Name = "btnLocation";
+            this.btnLocation.Size = new System.Drawing.Size(75, 23);
+            this.btnLocation.TabIndex = 9;
+            this.btnLocation.Text = "Location";
+            this.btnLocation.UseVisualStyleBackColor = true;
+            this.btnLocation.Click += new System.EventHandler(this.btnLocation_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(506, 230);
+            this.ClientSize = new System.Drawing.Size(506, 272);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelDestPath);
             this.Controls.Add(this.btnDestPath);
-            this.Controls.Add(this.chkboxMaintMode);
             this.Controls.Add(this.labelSrcPath);
             this.Controls.Add(this.btnRepeat);
             this.Controls.Add(this.btnSrcPath);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.Name = "FormMain";
-            this.Text = "Watermarker |  A simple image watermarking tool";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
+            this.Text = "Watermarker |  The image watermarking tool";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -244,6 +257,7 @@
         private System.Windows.Forms.Button btnColor;
         private System.Windows.Forms.FontDialog fontDialog1;
         private System.Windows.Forms.Button btnFont;
+        private System.Windows.Forms.Button btnLocation;
     }
 }
 

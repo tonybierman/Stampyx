@@ -94,5 +94,17 @@ namespace wmark.Properties {
                 this["Font"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Lowerleft")]
+        public global::WatermarkerCore.WatermarkLocation MarkLocation {
+            get {
+                return ((global::WatermarkerCore.WatermarkLocation)(this["MarkLocation"]));
+            }
+            set {
+                this["MarkLocation"] = value;
+            }
+        }
     }
 }

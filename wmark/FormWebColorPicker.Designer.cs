@@ -35,6 +35,7 @@
             // 
             // button1
             // 
+            this.button1.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.button1.Location = new System.Drawing.Point(0, 238);
             this.button1.Name = "button1";
@@ -65,15 +66,22 @@
             this.lbl_colorName.TabIndex = 2;
             this.lbl_colorName.Text = "White";
             // 
-            // WebColors
+            // FormWebColorPicker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.CancelButton = this.button1;
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.lbl_colorName);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "WebColors";
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "FormWebColorPicker";
+            this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "WebColors";
             this.ResumeLayout(false);
             this.PerformLayout();

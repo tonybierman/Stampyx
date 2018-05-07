@@ -20,5 +20,8 @@
     <Setting Name="Font" Type="System.Drawing.Font" Scope="User">
       <Value Profile="(Default)">Georgia, 72pt</Value>
     </Setting>
+    <Setting Name="MarkLocation" Type="WatermarkerCore.WatermarkLocation" Scope="User">
+      <Value Profile="(Default)">Lowerleft</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

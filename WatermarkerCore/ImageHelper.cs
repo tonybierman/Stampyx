@@ -11,6 +11,14 @@ using System.Threading.Tasks;
 
 namespace WatermarkerCore
 {
+    public enum WatermarkLocation
+    {
+        LowerLeft,
+        UpperLeft,
+        UpperRight,
+        LowerRight
+    };
+
     /// <summary>
     /// A helper class to create watermarked copies of images
     /// </summary>
@@ -64,7 +72,9 @@ namespace WatermarkerCore
         /// <param name="watermarkText"></param>
         /// <param name="isMaintenanceMode"></param>
         /// <returns></returns>
-        public static int ProcessFilesInBackground(BackgroundWorker bw, string folderSource, string folderDest, string watermarkFilePrefix, string watermarkText, Color textColor, Font wmFont, bool isMaintenanceMode)
+        public static int ProcessFilesInBackground(BackgroundWorker bw, string folderSource, string folderDest, 
+            string watermarkFilePrefix, string watermarkText, Color textColor, Font wmFont, WatermarkLocation location, 
+            bool isMaintenanceMode)
         {
             // Method variables
             Image img = null;
@@ -121,7 +131,7 @@ namespace WatermarkerCore
 
                             // Create the watermarked image
                             Stream outputStream = new MemoryStream();
-                            ImageHelper.AddWatermark(fs, watermarkText, textColor, wmFont, outputStream);
+                            ImageHelper.AddWatermark(fs, watermarkText, textColor, wmFont, location, outputStream);
                             img = Image.FromStream(outputStream);
                             using (Bitmap savingImage = new Bitmap(img.Width, img.Height, img.PixelFormat))
                             {
@@ -180,7 +190,7 @@ namespace WatermarkerCore
         /// <returns></returns>
         public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
         {
-            return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.TextColor, config.TextFont, config.IsMaint);
+            return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.TextColor, config.TextFont, config.MarkLocation, config.IsMaint);
         }
 
         /// <summary>
@@ -189,7 +199,7 @@ namespace WatermarkerCore
         /// <param name="fs"></param>
         /// <param name="watermarkText"></param>
         /// <param name="outputStream"></param>
-        public static void AddWatermark(FileStream fs, string watermarkText, Color textColor, Font wmFont, Stream outputStream)
+        public static void AddWatermark(FileStream fs, string watermarkText, Color textColor, Font wmFont, WatermarkLocation location, Stream outputStream)
         {
             Image img = Image.FromStream(fs);
             Font font = wmFont;
@@ -197,12 +207,9 @@ namespace WatermarkerCore
             // Adds a white watermark with an 100 alpha value.
             // Color color = Color.FromArgb(100, 255, 255, 255);
 
-            // The position where to draw the watermark on the image
-            // Bottom left
-            // TODO: Give user option for other corners
-            Point pt = new Point(40, img.Height - 120);
-            SolidBrush sbrush = new SolidBrush(textColor);
+            
 
+            SolidBrush sbrush = new SolidBrush(textColor);
             Graphics gr = null;
             try
             {
@@ -219,7 +226,30 @@ namespace WatermarkerCore
                 img1.Dispose();
             }
 
+            // The position where to draw the watermark on the image
+            // Bottom left
+            // TODO: Give user option for other corners
+            SizeF ss = gr.MeasureString(watermarkText, font);
+
+            // Lower left
+            Point pt = new Point(40, img.Height - (font.Height + 40));
+
+            // Upper left
+            if(location == WatermarkLocation.UpperLeft)
+                pt = new Point(40, 40);
+
+            // Upper right
+            if(location == WatermarkLocation.UpperRight)
+                pt = new Point(img.Width - ((int)ss.Width + 40), 40);
+
+            // Lower right
+            if(location == WatermarkLocation.LowerRight)
+                pt = new Point(img.Width - ((int)ss.Width + 40), img.Height - (font.Height + 40));
+
+            // Print
             gr.DrawString(watermarkText, font, sbrush, pt);
+
+            // Cleanup
             gr.Dispose();
 
             // Save to memory stream

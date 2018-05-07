@@ -22,7 +22,7 @@ namespace wmark
         {
             InitializeComponent();
 
-            // Disallow creation of new files using the FolderBrowserDialog.
+            // Configure folder pickers
             this.folderBrowserDialogSrc.ShowNewFolderButton = false;
             this.folderBrowserDialogSrc.Description = "Select the source images directory";
             this.folderBrowserDialogDest.ShowNewFolderButton = false;
@@ -35,6 +35,7 @@ namespace wmark
             m_config.Body = Properties.Settings.Default.Body;
             m_config.TextColor = Properties.Settings.Default.TextColor;
             m_config.TextFont = Properties.Settings.Default.Font;
+            m_config.MarkLocation = Properties.Settings.Default.MarkLocation;
 
             // Load settings to UI
             labelDestPath.Text = m_config.PathDest;
@@ -64,6 +65,7 @@ namespace wmark
             Properties.Settings.Default.Body = m_config.Body;
             Properties.Settings.Default.TextColor = m_config.TextColor;
             Properties.Settings.Default.Font = m_config.TextFont;
+            Properties.Settings.Default.MarkLocation = m_config.MarkLocation;
             Properties.Settings.Default.Save();
 
             // Process files in background
@@ -233,6 +235,15 @@ namespace wmark
             if (fontDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 m_config.TextFont = fontDialog1.Font;
+            }
+        }
+
+        private void btnLocation_Click(object sender, EventArgs e)
+        {
+            FormWatermarkLocationPicker locationPicker = new FormWatermarkLocationPicker();
+            if (locationPicker.ShowDialog(this) == DialogResult.OK)
+            {
+                m_config.MarkLocation = locationPicker.MarkLocation;
             }
         }
     }
