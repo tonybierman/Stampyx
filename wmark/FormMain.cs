@@ -15,10 +15,6 @@ namespace wmark
 {
     public partial class FormMain : Form
     {
-        // A few read only variables
-        readonly string WMARK_FONT_FAMILY = "Georgia";
-        readonly int WMARK_FONT_SIZE = 64;
-
         // Member variables
         string m_pathSrc = string.Empty;
         string m_pathDest = string.Empty;
@@ -127,7 +123,7 @@ namespace wmark
                             using (Bitmap savingImage = new Bitmap(img.Width, img.Height, img.PixelFormat))
                             {
                                 savingImage.SetResolution(img.HorizontalResolution, img.VerticalResolution);
-                                ImageCodecInfo codecInfo = GetEncoder(ImageFormat.Jpeg);
+                                ImageCodecInfo codecInfo = ImageHelper.GetEncoder(ImageFormat.Jpeg);
 
                                 // Create an Encoder object based on the GUID  
                                 // for the Quality parameter category.  
@@ -172,36 +168,17 @@ namespace wmark
             return 0;
         }
 
-        private ImageCodecInfo GetEncoder(ImageFormat format)
-        {
-            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
-            foreach (ImageCodecInfo codec in codecs)
-            {
-                if (codec.FormatID == format.Guid)
-                {
-                    return codec;
-                }
-            }
-            return null;
-        }
-
         private void AddWatermark(FileStream fs, string watermarkText, Stream outputStream)
         {
             Image img = Image.FromStream(fs);
-            Font font = new Font(WMARK_FONT_FAMILY, WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font font = new Font(ImageHelper.WMARK_FONT_FAMILY, ImageHelper.WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
 
-            // DEBUG: Get the PropertyItems property from image.
-            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-            PropertyItem[] propItems = img.PropertyItems;
-            foreach (PropertyItem propItem in propItems)
-            {
-                Debug.WriteLine("   iD: 0x" + propItem.Id.ToString("x") + " " + encoding.GetString(propItem.Value));
-            }
-
-            //Adds a white watermark with an 100 alpha value.
+            // Adds a white watermark with an 100 alpha value.
             Color color = Color.FromArgb(100, 255, 255, 255);
 
-            //The position where to draw the watermark on the image
+            // The position where to draw the watermark on the image
+            // Bottom left
+            // TODO: Give user option for other corners
             Point pt = new Point(40, img.Height - 120);
             SolidBrush sbrush = new SolidBrush(color);
 
@@ -214,13 +191,11 @@ namespace wmark
             }
             catch (Exception ex)
             {
-                // http://support.microsoft.com/Default.aspx?id=814675
                 Image img1 = img;
                 img = new Bitmap(img1, img.Width, img.Height);
                 gr = Graphics.FromImage(img);
                 gr.DrawImage(img1, new Rectangle(0, 0, img.Width, img.Height));//, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel);
                 img1.Dispose();
-
                 toolStripStatusLabel1.Text = ex.Message;
             }
 
@@ -275,16 +250,6 @@ namespace wmark
             Properties.Settings.Default.Save();
         }
 
-        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void textBoxBody_TextChanged(object sender, EventArgs e)
         {
 
@@ -305,12 +270,9 @@ namespace wmark
             }
         }
 
-        private void textBoxPrefix_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         #endregion Form events 
+
+        #region Background Worker
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -368,10 +330,9 @@ namespace wmark
             EnableUI();
         }
 
-        private void labelSrcPath_Click(object sender, EventArgs e)
-        {
+        #endregion Background Worker
 
-        }
+        #region UI Helpers
 
         private void DisableUI()
         {
@@ -390,5 +351,7 @@ namespace wmark
             textBoxPrefix.Enabled = true;
             chkboxMaintMode.Enabled = false;
         }
+
+        #endregion UI Helpers
     }
 }

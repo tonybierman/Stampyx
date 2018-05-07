@@ -66,7 +66,6 @@
             this.label1.Size = new System.Drawing.Size(197, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Prefix watermarked image filenames with";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // textBoxPrefix
             // 
@@ -74,7 +73,6 @@
             this.textBoxPrefix.Name = "textBoxPrefix";
             this.textBoxPrefix.Size = new System.Drawing.Size(264, 20);
             this.textBoxPrefix.TabIndex = 3;
-            this.textBoxPrefix.TextChanged += new System.EventHandler(this.textBoxPrefix_TextChanged);
             // 
             // chkboxMaintMode
             // 
@@ -115,7 +113,6 @@
             this.labelSrcPath.Size = new System.Drawing.Size(41, 13);
             this.labelSrcPath.TabIndex = 7;
             this.labelSrcPath.Text = "Not set";
-            this.labelSrcPath.Click += new System.EventHandler(this.labelSrcPath_Click);
             // 
             // btnDestPath
             // 
@@ -174,7 +171,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 17);
             this.toolStripStatusLabel1.Text = "Not run yet";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // FormMain
             // 
