@@ -25,6 +25,8 @@ namespace wmark
             // Disallow creation of new files using the FolderBrowserDialog.
             this.folderBrowserDialogSrc.ShowNewFolderButton = false;
             this.folderBrowserDialogSrc.Description = "Select the source images directory";
+            this.folderBrowserDialogDest.ShowNewFolderButton = false;
+            this.folderBrowserDialogDest.Description = "Select the target images directory";
 
             // Load settings to member variables
             m_config.PathSrc = Properties.Settings.Default.PathSource;
