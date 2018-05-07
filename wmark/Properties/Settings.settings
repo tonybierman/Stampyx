@@ -9,10 +9,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Prefix" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">wm_</Value>
     </Setting>
     <Setting Name="Body" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="TextColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace WatermarkerCore
         string m_prefix = string.Empty;
         string m_body = string.Empty;
         bool m_isMaint = true;
+        Color m_textColor = Color.White;
 
         /// <summary>
         /// The folder containing original images
@@ -42,5 +44,10 @@ namespace WatermarkerCore
         /// Only process files without a watermarked copy if true
         /// </summary>
         public bool IsMaint { get => m_isMaint; set => m_isMaint = value; }
+
+        /// <summary>
+        /// Color of watermark text
+        /// </summary>
+        public Color TextColor { get => m_textColor; set => m_textColor = value; }
     }
 }

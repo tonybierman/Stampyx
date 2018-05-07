@@ -44,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnColor = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +72,7 @@
             // 
             this.textBoxPrefix.Location = new System.Drawing.Point(209, 17);
             this.textBoxPrefix.Name = "textBoxPrefix";
-            this.textBoxPrefix.Size = new System.Drawing.Size(264, 20);
+            this.textBoxPrefix.Size = new System.Drawing.Size(183, 20);
             this.textBoxPrefix.TabIndex = 3;
             // 
             // chkboxMaintMode
@@ -90,7 +91,7 @@
             // 
             this.textBoxBody.Location = new System.Drawing.Point(91, 41);
             this.textBoxBody.Name = "textBoxBody";
-            this.textBoxBody.Size = new System.Drawing.Size(382, 20);
+            this.textBoxBody.Size = new System.Drawing.Size(301, 20);
             this.textBoxBody.TabIndex = 5;
             this.textBoxBody.TextChanged += new System.EventHandler(this.textBoxBody_TextChanged);
             // 
@@ -102,7 +103,7 @@
             this.btnRepeat.TabIndex = 6;
             this.btnRepeat.Text = "GO";
             this.btnRepeat.UseVisualStyleBackColor = true;
-            this.btnRepeat.Click += new System.EventHandler(this.btnRepeat_Click);
+            this.btnRepeat.Click += new System.EventHandler(this.btnGo_Click);
             // 
             // labelSrcPath
             // 
@@ -136,6 +137,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnColor);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.textBoxBody);
             this.groupBox1.Controls.Add(this.label1);
@@ -171,6 +173,16 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 17);
             this.toolStripStatusLabel1.Text = "Not run yet";
+            // 
+            // btnColor
+            // 
+            this.btnColor.Location = new System.Drawing.Point(401, 41);
+            this.btnColor.Name = "btnColor";
+            this.btnColor.Size = new System.Drawing.Size(75, 23);
+            this.btnColor.TabIndex = 7;
+            this.btnColor.Text = "Color";
+            this.btnColor.UseVisualStyleBackColor = true;
+            this.btnColor.Click += new System.EventHandler(this.btnColor_Click);
             // 
             // FormMain
             // 
@@ -216,6 +228,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.Button btnColor;
     }
 }
 

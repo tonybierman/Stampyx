@@ -33,6 +33,7 @@ namespace wmark
             m_config.PathDest = Properties.Settings.Default.PathDest;
             m_config.Prefix = Properties.Settings.Default.Prefix;
             m_config.Body = Properties.Settings.Default.Body;
+            m_config.TextColor = Properties.Settings.Default.TextColor;
 
             // Load settings to UI
             labelDestPath.Text = m_config.PathDest;
@@ -60,6 +61,7 @@ namespace wmark
             // Save a few general settings
             Properties.Settings.Default.Prefix = m_config.Prefix;
             Properties.Settings.Default.Body = m_config.Body;
+            Properties.Settings.Default.TextColor = m_config.TextColor;
             Properties.Settings.Default.Save();
 
             // Process files in background
@@ -115,7 +117,7 @@ namespace wmark
 
         }
 
-        private void btnRepeat_Click(object sender, EventArgs e)
+        private void btnGo_Click(object sender, EventArgs e)
         {
             DisableUI();
             if (this.backgroundWorker1.IsBusy)
@@ -213,5 +215,14 @@ namespace wmark
         }
 
         #endregion UI Helpers
+
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            FormWebColorPicker colorPicker = new FormWebColorPicker(m_config.TextColor);
+            if (colorPicker.ShowDialog(this) == DialogResult.OK)
+            {
+                m_config.TextColor = colorPicker.Pick;
+            }
+        }
     }
 }
