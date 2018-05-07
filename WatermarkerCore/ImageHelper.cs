@@ -11,11 +11,36 @@ using System.Threading.Tasks;
 
 namespace WatermarkerCore
 {
+    /// <summary>
+    /// A helper class to create watermarked copies of images
+    /// </summary>
     public class ImageHelper
     {
+        /// <summary>
+        /// Font used for watermark
+        /// </summary>
         public static readonly string WMARK_FONT_FAMILY = "Georgia";
+
+        /// <summary>
+        /// Font size used for watermark
+        /// </summary>
         public static readonly int WMARK_FONT_SIZE = 64;
 
+        /// <summary>
+        /// Default watermarked copy file prefix
+        /// </summary>
+        public static readonly string DEFAULT_PREFIX = "wm_";
+
+        /// <summary>
+        /// Default watermark text
+        /// </summary>
+        public static readonly string DEFAULT_BODY = "© Me";
+
+        /// <summary>
+        /// Get an image format encoder
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
         public static ImageCodecInfo GetEncoder(ImageFormat format)
         {
             ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
@@ -29,6 +54,16 @@ namespace WatermarkerCore
             return null;
         }
 
+        /// <summary>
+        /// Create watermarked copies of all images in a folder
+        /// </summary>
+        /// <param name="bw"></param>
+        /// <param name="folderSource"></param>
+        /// <param name="folderDest"></param>
+        /// <param name="watermarkFilePrefix"></param>
+        /// <param name="watermarkText"></param>
+        /// <param name="isMaintenanceMode"></param>
+        /// <returns></returns>
         public static int ProcessFilesInBackground(BackgroundWorker bw, string folderSource, string folderDest, string watermarkFilePrefix, string watermarkText, bool isMaintenanceMode)
         {
             // Method variables
@@ -137,11 +172,23 @@ namespace WatermarkerCore
             return retval;
         }
 
+        /// <summary>
+        /// Convenience overload
+        /// </summary>
+        /// <param name="bw"></param>
+        /// <param name="config"></param>
+        /// <returns></returns>
         public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
         {
             return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.IsMaint);
         }
 
+        /// <summary>
+        /// Adds a text watermark to an input image filestream
+        /// </summary>
+        /// <param name="fs"></param>
+        /// <param name="watermarkText"></param>
+        /// <param name="outputStream"></param>
         public static void AddWatermark(FileStream fs, string watermarkText, Stream outputStream)
         {
             Image img = Image.FromStream(fs);

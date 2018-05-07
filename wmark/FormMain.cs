@@ -16,12 +16,6 @@ namespace wmark
 {
     public partial class FormMain : Form
     {
-        // Member variables
-        //string m_pathSrc = string.Empty;
-        //string m_pathDest = string.Empty;
-        //string m_prefix = string.Empty;
-        //string m_body = string.Empty;
-
         ProcessConfig m_config = new ProcessConfig();
 
         public FormMain()
@@ -43,8 +37,8 @@ namespace wmark
             labelSrcPath.Text = m_config.PathSrc;
             this.folderBrowserDialogSrc.SelectedPath = m_config.PathSrc;
             this.folderBrowserDialogDest.SelectedPath = m_config.PathDest;
-            textBoxBody.Text = string.IsNullOrEmpty(m_config.Body) ? "© Me" : m_config.Body;
-            textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? "wm_" : m_config.Prefix;
+            textBoxBody.Text = string.IsNullOrEmpty(m_config.Body) ? ImageHelper.DEFAULT_BODY : m_config.Body;
+            textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? ImageHelper.DEFAULT_PREFIX : m_config.Prefix;
 
             // Initialize background worker
             this.backgroundWorker1.WorkerSupportsCancellation = true;
