@@ -44,6 +44,9 @@ namespace wmark
             this.folderBrowserDialogDest.SelectedPath = m_config.PathDest;
             textBoxBody.Text = string.IsNullOrEmpty(m_config.Body) ? ImageHelper.DEFAULT_BODY : m_config.Body;
             textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? ImageHelper.DEFAULT_PREFIX : m_config.Prefix;
+            lblColor.Text = StringHelper.SplitCamelCase(m_config.TextColor.Name);
+            lblFontFamily.Text = m_config.TextFont.FontFamily.Name;
+            lblLocation.Text = StringHelper.SplitCamelCase(m_config.MarkLocation.ToString());
 
             // Initialize background worker
             this.backgroundWorker1.WorkerSupportsCancellation = true;
@@ -226,6 +229,7 @@ namespace wmark
             if (colorPicker.ShowDialog(this) == DialogResult.OK)
             {
                 m_config.TextColor = colorPicker.Pick;
+                lblColor.Text = StringHelper.SplitCamelCase(m_config.TextColor.Name);
             }
         }
 
@@ -235,6 +239,7 @@ namespace wmark
             if (fontDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 m_config.TextFont = fontDialog1.Font;
+                lblFontFamily.Text = m_config.TextFont.FontFamily.Name;
             }
         }
 
@@ -244,6 +249,7 @@ namespace wmark
             if (locationPicker.ShowDialog(this) == DialogResult.OK)
             {
                 m_config.MarkLocation = locationPicker.MarkLocation;
+                lblLocation.Text = StringHelper.SplitCamelCase(m_config.MarkLocation.ToString());
             }
         }
     }

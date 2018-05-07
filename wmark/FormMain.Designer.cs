@@ -41,13 +41,16 @@
             this.folderBrowserDialogDest = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnLocation = new System.Windows.Forms.Button();
             this.btnFont = new System.Windows.Forms.Button();
             this.btnColor = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.btnLocation = new System.Windows.Forms.Button();
+            this.lblFontFamily = new System.Windows.Forms.Label();
+            this.lblColor = new System.Windows.Forms.Label();
+            this.lblLocation = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +78,7 @@
             // 
             this.textBoxPrefix.Location = new System.Drawing.Point(209, 17);
             this.textBoxPrefix.Name = "textBoxPrefix";
-            this.textBoxPrefix.Size = new System.Drawing.Size(154, 20);
+            this.textBoxPrefix.Size = new System.Drawing.Size(64, 20);
             this.textBoxPrefix.TabIndex = 3;
             // 
             // chkboxMaintMode
@@ -94,7 +97,7 @@
             // 
             this.textBoxBody.Location = new System.Drawing.Point(91, 41);
             this.textBoxBody.Name = "textBoxBody";
-            this.textBoxBody.Size = new System.Drawing.Size(272, 20);
+            this.textBoxBody.Size = new System.Drawing.Size(182, 20);
             this.textBoxBody.TabIndex = 5;
             this.textBoxBody.TextChanged += new System.EventHandler(this.textBoxBody_TextChanged);
             // 
@@ -140,6 +143,9 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lblLocation);
+            this.groupBox1.Controls.Add(this.lblColor);
+            this.groupBox1.Controls.Add(this.lblFontFamily);
             this.groupBox1.Controls.Add(this.btnLocation);
             this.groupBox1.Controls.Add(this.btnFont);
             this.groupBox1.Controls.Add(this.btnColor);
@@ -155,9 +161,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
+            // btnLocation
+            // 
+            this.btnLocation.Location = new System.Drawing.Point(297, 78);
+            this.btnLocation.Name = "btnLocation";
+            this.btnLocation.Size = new System.Drawing.Size(75, 23);
+            this.btnLocation.TabIndex = 9;
+            this.btnLocation.Text = "Location";
+            this.btnLocation.UseVisualStyleBackColor = true;
+            this.btnLocation.Click += new System.EventHandler(this.btnLocation_Click);
+            // 
             // btnFont
             // 
-            this.btnFont.Location = new System.Drawing.Point(394, 19);
+            this.btnFont.Location = new System.Drawing.Point(297, 17);
             this.btnFont.Name = "btnFont";
             this.btnFont.Size = new System.Drawing.Size(75, 23);
             this.btnFont.TabIndex = 8;
@@ -167,7 +183,7 @@
             // 
             // btnColor
             // 
-            this.btnColor.Location = new System.Drawing.Point(394, 49);
+            this.btnColor.Location = new System.Drawing.Point(297, 47);
             this.btnColor.Name = "btnColor";
             this.btnColor.Size = new System.Drawing.Size(75, 23);
             this.btnColor.TabIndex = 7;
@@ -200,15 +216,32 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 17);
             this.toolStripStatusLabel1.Text = "Not run yet";
             // 
-            // btnLocation
+            // lblFontFamily
             // 
-            this.btnLocation.Location = new System.Drawing.Point(394, 78);
-            this.btnLocation.Name = "btnLocation";
-            this.btnLocation.Size = new System.Drawing.Size(75, 23);
-            this.btnLocation.TabIndex = 9;
-            this.btnLocation.Text = "Location";
-            this.btnLocation.UseVisualStyleBackColor = true;
-            this.btnLocation.Click += new System.EventHandler(this.btnLocation_Click);
+            this.lblFontFamily.AutoSize = true;
+            this.lblFontFamily.Location = new System.Drawing.Point(394, 22);
+            this.lblFontFamily.Name = "lblFontFamily";
+            this.lblFontFamily.Size = new System.Drawing.Size(35, 13);
+            this.lblFontFamily.TabIndex = 10;
+            this.lblFontFamily.Text = "label3";
+            // 
+            // lblColor
+            // 
+            this.lblColor.AutoSize = true;
+            this.lblColor.Location = new System.Drawing.Point(394, 52);
+            this.lblColor.Name = "lblColor";
+            this.lblColor.Size = new System.Drawing.Size(35, 13);
+            this.lblColor.TabIndex = 11;
+            this.lblColor.Text = "label3";
+            // 
+            // lblLocation
+            // 
+            this.lblLocation.AutoSize = true;
+            this.lblLocation.Location = new System.Drawing.Point(394, 82);
+            this.lblLocation.Name = "lblLocation";
+            this.lblLocation.Size = new System.Drawing.Size(35, 13);
+            this.lblLocation.TabIndex = 12;
+            this.lblLocation.Text = "label3";
             // 
             // FormMain
             // 
@@ -258,6 +291,9 @@
         private System.Windows.Forms.FontDialog fontDialog1;
         private System.Windows.Forms.Button btnFont;
         private System.Windows.Forms.Button btnLocation;
+        private System.Windows.Forms.Label lblLocation;
+        private System.Windows.Forms.Label lblColor;
+        private System.Windows.Forms.Label lblFontFamily;
     }
 }
 

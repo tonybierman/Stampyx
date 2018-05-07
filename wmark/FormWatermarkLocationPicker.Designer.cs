@@ -32,11 +32,12 @@
             this.btnLowerRight = new System.Windows.Forms.Button();
             this.btnUpperLeft = new System.Windows.Forms.Button();
             this.btnUpperRight = new System.Windows.Forms.Button();
+            this.btnCenter = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnLowerLeft
             // 
-            this.btnLowerLeft.Location = new System.Drawing.Point(12, 41);
+            this.btnLowerLeft.Location = new System.Drawing.Point(12, 69);
             this.btnLowerLeft.Name = "btnLowerLeft";
             this.btnLowerLeft.Size = new System.Drawing.Size(75, 23);
             this.btnLowerLeft.TabIndex = 0;
@@ -46,7 +47,7 @@
             // 
             // btnLowerRight
             // 
-            this.btnLowerRight.Location = new System.Drawing.Point(93, 41);
+            this.btnLowerRight.Location = new System.Drawing.Point(154, 69);
             this.btnLowerRight.Name = "btnLowerRight";
             this.btnLowerRight.Size = new System.Drawing.Size(75, 23);
             this.btnLowerRight.TabIndex = 1;
@@ -66,7 +67,7 @@
             // 
             // btnUpperRight
             // 
-            this.btnUpperRight.Location = new System.Drawing.Point(93, 12);
+            this.btnUpperRight.Location = new System.Drawing.Point(154, 12);
             this.btnUpperRight.Name = "btnUpperRight";
             this.btnUpperRight.Size = new System.Drawing.Size(75, 23);
             this.btnUpperRight.TabIndex = 3;
@@ -74,12 +75,23 @@
             this.btnUpperRight.UseVisualStyleBackColor = true;
             this.btnUpperRight.Click += new System.EventHandler(this.btnUpperRight_Click);
             // 
+            // btnCenter
+            // 
+            this.btnCenter.Location = new System.Drawing.Point(83, 40);
+            this.btnCenter.Name = "btnCenter";
+            this.btnCenter.Size = new System.Drawing.Size(75, 23);
+            this.btnCenter.TabIndex = 4;
+            this.btnCenter.Text = "Center";
+            this.btnCenter.UseVisualStyleBackColor = true;
+            this.btnCenter.Click += new System.EventHandler(this.btnCenter_Click);
+            // 
             // FormWatermarkLocationPicker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(181, 79);
+            this.ClientSize = new System.Drawing.Size(241, 105);
+            this.Controls.Add(this.btnCenter);
             this.Controls.Add(this.btnUpperRight);
             this.Controls.Add(this.btnUpperLeft);
             this.Controls.Add(this.btnLowerRight);
@@ -101,5 +113,6 @@
         private System.Windows.Forms.Button btnLowerRight;
         private System.Windows.Forms.Button btnUpperLeft;
         private System.Windows.Forms.Button btnUpperRight;
+        private System.Windows.Forms.Button btnCenter;
     }
 }

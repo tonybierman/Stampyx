@@ -48,5 +48,12 @@ namespace wmark
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
+        private void btnCenter_Click(object sender, EventArgs e)
+        {
+            MarkLocation = WatermarkLocation.Center;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
     }
 }

@@ -16,7 +16,8 @@ namespace WatermarkerCore
         LowerLeft,
         UpperLeft,
         UpperRight,
-        LowerRight
+        LowerRight,
+        Center
     };
 
     /// <summary>
@@ -204,11 +205,6 @@ namespace WatermarkerCore
             Image img = Image.FromStream(fs);
             Font font = wmFont;
 
-            // Adds a white watermark with an 100 alpha value.
-            // Color color = Color.FromArgb(100, 255, 255, 255);
-
-            
-
             SolidBrush sbrush = new SolidBrush(textColor);
             Graphics gr = null;
             try
@@ -227,12 +223,10 @@ namespace WatermarkerCore
             }
 
             // The position where to draw the watermark on the image
-            // Bottom left
-            // TODO: Give user option for other corners
             SizeF ss = gr.MeasureString(watermarkText, font);
 
             // Lower left
-            Point pt = new Point(40, img.Height - (font.Height + 40));
+            Point pt = new Point(40, img.Height - ((int)ss.Height + 40));
 
             // Upper left
             if(location == WatermarkLocation.UpperLeft)
@@ -244,7 +238,11 @@ namespace WatermarkerCore
 
             // Lower right
             if(location == WatermarkLocation.LowerRight)
-                pt = new Point(img.Width - ((int)ss.Width + 40), img.Height - (font.Height + 40));
+                pt = new Point(img.Width - ((int)ss.Width + 40), img.Height - ((int)ss.Height + 40));
+
+            // Center
+            if (location == WatermarkLocation.Center)
+                pt = new Point((img.Width / 2) - (((int)ss.Width / 2)), (img.Height / 2) - (((int)ss.Height / 2)));
 
             // Print
             gr.DrawString(watermarkText, font, sbrush, pt);
