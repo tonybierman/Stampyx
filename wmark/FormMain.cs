@@ -34,6 +34,7 @@ namespace wmark
             m_config.Prefix = Properties.Settings.Default.Prefix;
             m_config.Body = Properties.Settings.Default.Body;
             m_config.TextColor = Properties.Settings.Default.TextColor;
+            m_config.TextFont = Properties.Settings.Default.Font;
 
             // Load settings to UI
             labelDestPath.Text = m_config.PathDest;
@@ -62,6 +63,7 @@ namespace wmark
             Properties.Settings.Default.Prefix = m_config.Prefix;
             Properties.Settings.Default.Body = m_config.Body;
             Properties.Settings.Default.TextColor = m_config.TextColor;
+            Properties.Settings.Default.Font = m_config.TextFont;
             Properties.Settings.Default.Save();
 
             // Process files in background
@@ -222,6 +224,15 @@ namespace wmark
             if (colorPicker.ShowDialog(this) == DialogResult.OK)
             {
                 m_config.TextColor = colorPicker.Pick;
+            }
+        }
+
+        private void btnFont_Click(object sender, EventArgs e)
+        {
+            fontDialog1.Font = m_config.TextFont;
+            if (fontDialog1.ShowDialog(this) == DialogResult.OK)
+            {
+                m_config.TextFont = fontDialog1.Font;
             }
         }
     }

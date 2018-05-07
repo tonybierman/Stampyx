@@ -18,6 +18,7 @@ namespace WatermarkerCore
         string m_body = string.Empty;
         bool m_isMaint = true;
         Color m_textColor = Color.White;
+        Font m_font = new Font(ImageHelper.WMARK_FONT_FAMILY, ImageHelper.WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
 
         /// <summary>
         /// The folder containing original images
@@ -49,5 +50,7 @@ namespace WatermarkerCore
         /// Color of watermark text
         /// </summary>
         public Color TextColor { get => m_textColor; set => m_textColor = value; }
+
+        public Font TextFont { get => m_font; set => m_font = value; }
     }
 }

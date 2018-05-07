@@ -57,7 +57,6 @@ namespace wmark
                 };
                 Controls.Add(lbl);
             }
-
         }
 
         private void button1_Click(object sender, EventArgs e)

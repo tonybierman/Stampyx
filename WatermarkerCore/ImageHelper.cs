@@ -64,7 +64,7 @@ namespace WatermarkerCore
         /// <param name="watermarkText"></param>
         /// <param name="isMaintenanceMode"></param>
         /// <returns></returns>
-        public static int ProcessFilesInBackground(BackgroundWorker bw, string folderSource, string folderDest, string watermarkFilePrefix, string watermarkText, Color textColor, bool isMaintenanceMode)
+        public static int ProcessFilesInBackground(BackgroundWorker bw, string folderSource, string folderDest, string watermarkFilePrefix, string watermarkText, Color textColor, Font wmFont, bool isMaintenanceMode)
         {
             // Method variables
             Image img = null;
@@ -121,7 +121,7 @@ namespace WatermarkerCore
 
                             // Create the watermarked image
                             Stream outputStream = new MemoryStream();
-                            ImageHelper.AddWatermark(fs, watermarkText, textColor, outputStream);
+                            ImageHelper.AddWatermark(fs, watermarkText, textColor, wmFont, outputStream);
                             img = Image.FromStream(outputStream);
                             using (Bitmap savingImage = new Bitmap(img.Width, img.Height, img.PixelFormat))
                             {
@@ -180,7 +180,7 @@ namespace WatermarkerCore
         /// <returns></returns>
         public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
         {
-            return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.TextColor, config.IsMaint);
+            return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.TextColor, config.TextFont, config.IsMaint);
         }
 
         /// <summary>
@@ -189,10 +189,10 @@ namespace WatermarkerCore
         /// <param name="fs"></param>
         /// <param name="watermarkText"></param>
         /// <param name="outputStream"></param>
-        public static void AddWatermark(FileStream fs, string watermarkText, Color textColor, Stream outputStream)
+        public static void AddWatermark(FileStream fs, string watermarkText, Color textColor, Font wmFont, Stream outputStream)
         {
             Image img = Image.FromStream(fs);
-            Font font = new Font(ImageHelper.WMARK_FONT_FAMILY, ImageHelper.WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font font = wmFont;
 
             // Adds a white watermark with an 100 alpha value.
             // Color color = Color.FromArgb(100, 255, 255, 255);
