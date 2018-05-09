@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WatermarkerCore
+namespace StampyxCore
 {
     /// <summary>
     /// Parameters for a watermaerked processing run

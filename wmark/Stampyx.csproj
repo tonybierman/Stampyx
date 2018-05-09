@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E927469A-E833-44B1-9676-CB0DE28EC70C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>wmark</RootNamespace>
-    <AssemblyName>wmark</AssemblyName>
+    <RootNamespace>Stampyx</RootNamespace>
+    <AssemblyName>stampyx</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -79,6 +79,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="FormWebColorPicker.resx">
       <DependentUpon>FormWebColorPicker.cs</DependentUpon>
@@ -97,9 +98,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WatermarkerCore\WatermarkerCore.csproj">
+    <ProjectReference Include="..\WatermarkerCore\StampyxCore.csproj">
       <Project>{d1b9b3a4-0ec4-47b8-9ee8-8ba3d3b9d334}</Project>
-      <Name>WatermarkerCore</Name>
+      <Name>StampyxCore</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

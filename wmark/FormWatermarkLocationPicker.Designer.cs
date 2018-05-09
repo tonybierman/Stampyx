@@ -1,4 +1,4 @@
-﻿namespace wmark
+﻿namespace Stampyx
 {
     partial class FormWatermarkLocationPicker
     {

@@ -1,4 +1,4 @@
-﻿namespace wmark
+﻿namespace Stampyx
 {
     partial class FormMain
     {
@@ -41,6 +41,9 @@
             this.folderBrowserDialogDest = new System.Windows.Forms.FolderBrowserDialog();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblLocation = new System.Windows.Forms.Label();
+            this.lblColor = new System.Windows.Forms.Label();
+            this.lblFontFamily = new System.Windows.Forms.Label();
             this.btnLocation = new System.Windows.Forms.Button();
             this.btnFont = new System.Windows.Forms.Button();
             this.btnColor = new System.Windows.Forms.Button();
@@ -48,9 +51,6 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
-            this.lblFontFamily = new System.Windows.Forms.Label();
-            this.lblColor = new System.Windows.Forms.Label();
-            this.lblLocation = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -161,6 +161,33 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Settings";
             // 
+            // lblLocation
+            // 
+            this.lblLocation.AutoSize = true;
+            this.lblLocation.Location = new System.Drawing.Point(394, 82);
+            this.lblLocation.Name = "lblLocation";
+            this.lblLocation.Size = new System.Drawing.Size(35, 13);
+            this.lblLocation.TabIndex = 12;
+            this.lblLocation.Text = "label3";
+            // 
+            // lblColor
+            // 
+            this.lblColor.AutoSize = true;
+            this.lblColor.Location = new System.Drawing.Point(394, 52);
+            this.lblColor.Name = "lblColor";
+            this.lblColor.Size = new System.Drawing.Size(35, 13);
+            this.lblColor.TabIndex = 11;
+            this.lblColor.Text = "label3";
+            // 
+            // lblFontFamily
+            // 
+            this.lblFontFamily.AutoSize = true;
+            this.lblFontFamily.Location = new System.Drawing.Point(394, 22);
+            this.lblFontFamily.Name = "lblFontFamily";
+            this.lblFontFamily.Size = new System.Drawing.Size(35, 13);
+            this.lblFontFamily.TabIndex = 10;
+            this.lblFontFamily.Text = "label3";
+            // 
             // btnLocation
             // 
             this.btnLocation.Location = new System.Drawing.Point(297, 78);
@@ -216,33 +243,6 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(67, 17);
             this.toolStripStatusLabel1.Text = "Not run yet";
             // 
-            // lblFontFamily
-            // 
-            this.lblFontFamily.AutoSize = true;
-            this.lblFontFamily.Location = new System.Drawing.Point(394, 22);
-            this.lblFontFamily.Name = "lblFontFamily";
-            this.lblFontFamily.Size = new System.Drawing.Size(35, 13);
-            this.lblFontFamily.TabIndex = 10;
-            this.lblFontFamily.Text = "label3";
-            // 
-            // lblColor
-            // 
-            this.lblColor.AutoSize = true;
-            this.lblColor.Location = new System.Drawing.Point(394, 52);
-            this.lblColor.Name = "lblColor";
-            this.lblColor.Size = new System.Drawing.Size(35, 13);
-            this.lblColor.TabIndex = 11;
-            this.lblColor.Text = "label3";
-            // 
-            // lblLocation
-            // 
-            this.lblLocation.AutoSize = true;
-            this.lblLocation.Location = new System.Drawing.Point(394, 82);
-            this.lblLocation.Name = "lblLocation";
-            this.lblLocation.Size = new System.Drawing.Size(35, 13);
-            this.lblLocation.TabIndex = 12;
-            this.lblLocation.Text = "label3";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -259,7 +259,7 @@
             this.MaximizeBox = false;
             this.Name = "FormMain";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Watermarker |  The image watermarking tool";
+            this.Text = "Stampyx |  The image watermarking tool";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

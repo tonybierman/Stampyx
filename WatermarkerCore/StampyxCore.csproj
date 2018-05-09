@@ -7,8 +7,8 @@
     <ProjectGuid>{D1B9B3A4-0EC4-47B8-9EE8-8BA3D3B9D334}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WatermarkerCore</RootNamespace>
-    <AssemblyName>WatermarkerCore</AssemblyName>
+    <RootNamespace>StampyxCore</RootNamespace>
+    <AssemblyName>StampyxCore</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
