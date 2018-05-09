@@ -98,7 +98,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WatermarkerCore\StampyxCore.csproj">
+    <ProjectReference Include="..\StampyxCore\StampyxCore.csproj">
       <Project>{d1b9b3a4-0ec4-47b8-9ee8-8ba3d3b9d334}</Project>
       <Name>StampyxCore</Name>
     </ProjectReference>
