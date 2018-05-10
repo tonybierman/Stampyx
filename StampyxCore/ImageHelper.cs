@@ -157,12 +157,13 @@ namespace StampyxCore
                                 using (Graphics g = Graphics.FromImage(savingImage))
                                     g.DrawImage(img, new Point(0, 0));
 
-                                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                                QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q);
-                                QRCode qrCode = new QRCode(qrCodeData);
-                                Bitmap qrCodeImage = qrCode.GetGraphic(10);
-                                using (Graphics g = Graphics.FromImage(savingImage))
-                                    g.DrawImage(qrCodeImage, new Point(0, 0));
+                                // TODO IF QRCode checked
+                                //QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                                //QRCodeData qrCodeData = qrGenerator.CreateQrCode("The text which should be encoded.", QRCodeGenerator.ECCLevel.Q);
+                                //QRCode qrCode = new QRCode(qrCodeData);
+                                //Bitmap qrCodeImage = qrCode.GetGraphic(10);
+                                //using (Graphics g = Graphics.FromImage(savingImage))
+                                //    g.DrawImage(qrCodeImage, new Point(0, 0));
 
                                 savingImage.Save(pathTarget, codecInfo, parms);
 
