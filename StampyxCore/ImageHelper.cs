@@ -79,6 +79,7 @@ namespace StampyxCore
             bool isMaintenanceMode)
         {
             // Method variables
+            watermarkText = watermarkText.Replace(@"\n", Environment.NewLine);
             Image img = null;
             string pathSource = String.Empty;
             string pathTarget = String.Empty;
