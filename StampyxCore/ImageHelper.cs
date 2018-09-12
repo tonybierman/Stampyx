@@ -221,7 +221,10 @@ namespace StampyxCore
             foreach (Watermark mark in marks)
             {
                 Font font = mark.TextFont;
-                SolidBrush sbrush = new SolidBrush(mark.TextColor);
+                if (font.Size > img.Width / 100)
+                    font = new Font(font.FontFamily, font.Size / 2, font.Style);
+
+                    SolidBrush sbrush = new SolidBrush(mark.TextColor);
                 try
                 {
                     gr = Graphics.FromImage(img);
