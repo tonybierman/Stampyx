@@ -61,6 +61,18 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormWatermarkEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWatermarkEditor.Designer.cs">
+      <DependentUpon>FormWatermarkEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormWatermarkLocations.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWatermarkLocations.Designer.cs">
+      <DependentUpon>FormWatermarkLocations.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWatermarkLocationPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +89,12 @@
     </Compile>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWatermarkEditor.resx">
+      <DependentUpon>FormWatermarkEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWatermarkLocations.resx">
+      <DependentUpon>FormWatermarkLocations.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWatermarkLocationPicker.resx">
       <DependentUpon>FormWatermarkLocationPicker.cs</DependentUpon>

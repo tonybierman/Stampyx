@@ -106,5 +106,16 @@ namespace Stampyx.Properties {
                 this["MarkLocation"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::StampyxCore.WatermarkCollection Marks {
+            get {
+                return ((global::StampyxCore.WatermarkCollection)(this["Marks"]));
+            }
+            set {
+                this["Marks"] = value;
+            }
+        }
     }
 }

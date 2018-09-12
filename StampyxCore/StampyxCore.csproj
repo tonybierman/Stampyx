@@ -51,10 +51,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Hydrator.cs" />
+    <Compile Include="WatermarkCollection.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="ProcessConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringHelper.cs" />
+    <Compile Include="Watermark.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

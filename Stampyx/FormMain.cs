@@ -36,6 +36,7 @@ namespace Stampyx
             m_config.TextColor = Properties.Settings.Default.TextColor;
             m_config.TextFont = Properties.Settings.Default.Font;
             m_config.MarkLocation = Properties.Settings.Default.MarkLocation;
+            m_config.Marks = Hydrator.HydrateFrom("marks.binary");
 
             // Load settings to UI
             labelDestPath.Text = m_config.PathDest;
@@ -69,7 +70,23 @@ namespace Stampyx
             Properties.Settings.Default.TextColor = m_config.TextColor;
             Properties.Settings.Default.Font = m_config.TextFont;
             Properties.Settings.Default.MarkLocation = m_config.MarkLocation;
+
             Properties.Settings.Default.Save();
+
+            //m_config.Marks.Add(new Watermark()
+            //{
+            //    Body = "American Heritage English Shepherds",
+            //    Location = WatermarkLocation.UpperRight
+            //});
+
+            //m_config.Marks.Add(new Watermark()
+            //{
+            //    Body = "© Tony Bierman",
+            //    Location = WatermarkLocation.LowerLeft
+
+            //});
+
+            Hydrator.DehydrateTo(m_config.Marks, "marks.binary");
 
             // Process files in background
             return ImageHelper.ProcessFilesInBackground(bw, m_config);
@@ -95,6 +112,7 @@ namespace Stampyx
             m_config.PathSrc = path;
             labelSrcPath.Text = path;
             Properties.Settings.Default.PathSource = path;
+
             Properties.Settings.Default.Save();
         }
 
@@ -116,6 +134,7 @@ namespace Stampyx
             m_config.PathDest = path;
             labelDestPath.Text = path;
             Properties.Settings.Default.PathDest = path;
+
             Properties.Settings.Default.Save();
         }
 
@@ -243,13 +262,21 @@ namespace Stampyx
             }
         }
 
+        //private void btnLocation_Click(object sender, EventArgs e)
+        //{
+        //    FormWatermarkLocationPicker locationPicker = new FormWatermarkLocationPicker();
+        //    if (locationPicker.ShowDialog(this) == DialogResult.OK)
+        //    {
+        //        m_config.MarkLocation = locationPicker.MarkLocation;
+        //        lblLocation.Text = StringHelper.SplitCamelCase(m_config.MarkLocation.ToString());
+        //    }
+        //}
+
         private void btnLocation_Click(object sender, EventArgs e)
         {
-            FormWatermarkLocationPicker locationPicker = new FormWatermarkLocationPicker();
+            FormWatermarkLocations locationPicker = new FormWatermarkLocations(m_config);
             if (locationPicker.ShowDialog(this) == DialogResult.OK)
             {
-                m_config.MarkLocation = locationPicker.MarkLocation;
-                lblLocation.Text = StringHelper.SplitCamelCase(m_config.MarkLocation.ToString());
             }
         }
     }

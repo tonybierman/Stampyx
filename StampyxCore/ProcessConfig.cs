@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace StampyxCore
         Color m_textColor = Color.White;
         Font m_font = new Font(ImageHelper.WMARK_FONT_FAMILY, ImageHelper.WMARK_FONT_SIZE, FontStyle.Regular, GraphicsUnit.Pixel);
         WatermarkLocation m_markLocation = WatermarkLocation.LowerLeft;
+        WatermarkCollection m_marks = new WatermarkCollection();
 
         /// <summary>
         /// The folder containing original images
@@ -61,5 +63,7 @@ namespace StampyxCore
         /// Location of watermark
         /// </summary>
         public WatermarkLocation MarkLocation { get => m_markLocation; set => m_markLocation = value; }
+
+        public WatermarkCollection Marks { get => m_marks; set => m_marks = value; }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -74,16 +75,19 @@ namespace StampyxCore
         /// <param name="watermarkText"></param>
         /// <param name="isMaintenanceMode"></param>
         /// <returns></returns>
-        public static int ProcessFilesInBackground(BackgroundWorker bw, string folderSource, string folderDest, 
-            string watermarkFilePrefix, string watermarkText, Color textColor, Font wmFont, WatermarkLocation location, 
-            bool isMaintenanceMode)
+        public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
         {
             // Method variables
-            watermarkText = watermarkText.Replace(@"\n", Environment.NewLine);
+            //watermarkText = watermarkText.Replace(@"\n", Environment.NewLine);
             Image img = null;
             string pathSource = String.Empty;
             string pathTarget = String.Empty;
             int retval = 0;
+
+            string folderDest = config.PathDest;
+            string folderSource = config.PathSrc;
+            string watermarkFilePrefix = config.Prefix;
+            bool isMaintenanceMode = config.IsMaint;
 
             try
             {
@@ -134,7 +138,7 @@ namespace StampyxCore
 
                             // Create the watermarked image
                             Stream outputStream = new MemoryStream();
-                            ImageHelper.AddWatermark(fs, watermarkText, textColor, wmFont, location, outputStream);
+                            ImageHelper.AddWatermarks(fs, config.Marks, outputStream);
                             img = Image.FromStream(outputStream);
                             using (Bitmap savingImage = new Bitmap(img.Width, img.Height, img.PixelFormat))
                             {
@@ -167,8 +171,6 @@ namespace StampyxCore
                                 //    g.DrawImage(qrCodeImage, new Point(0, 0));
 
                                 savingImage.Save(pathTarget, codecInfo, parms);
-
-                                
                             }
                         }
 
@@ -201,9 +203,71 @@ namespace StampyxCore
         /// <param name="bw"></param>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
+        //public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
+        //{
+        //    int retval = 0;
+        //    foreach(var wm in config.Marks)
+        //        retval += ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.TextColor, config.TextFont, config.MarkLocation, config.IsMaint);
+
+        //    return retval;
+        //}
+
+
+        public static void AddWatermarks(FileStream fs, WatermarkCollection marks, Stream outputStream)
         {
-            return ProcessFilesInBackground(bw, config.PathSrc, config.PathDest, config.Prefix, config.Body, config.TextColor, config.TextFont, config.MarkLocation, config.IsMaint);
+            Image img = Image.FromStream(fs);
+            Graphics gr = null;
+
+            foreach (Watermark mark in marks)
+            {
+                Font font = mark.TextFont;
+                SolidBrush sbrush = new SolidBrush(mark.TextColor);
+                try
+                {
+                    gr = Graphics.FromImage(img);
+                    gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
+                    //gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                }
+                catch (Exception ex)
+                {
+                    Image img1 = img;
+                    img = new Bitmap(img1, img.Width, img.Height);
+                    gr = Graphics.FromImage(img);
+                    gr.DrawImage(img1, new Rectangle(0, 0, img.Width, img.Height));//, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel);
+                    img1.Dispose();
+                }
+
+                // The position where to draw the watermark on the image
+                SizeF ss = gr.MeasureString(mark.Body, font);
+
+                // Lower left
+                Point pt = new Point(40, img.Height - ((int)ss.Height + 40));
+
+                // Upper left
+                if (mark.Location == WatermarkLocation.UpperLeft)
+                    pt = new Point(40, 40);
+
+                // Upper right
+                if (mark.Location == WatermarkLocation.UpperRight)
+                    pt = new Point(img.Width - ((int)ss.Width + 40), 40);
+
+                // Lower right
+                if (mark.Location == WatermarkLocation.LowerRight)
+                    pt = new Point(img.Width - ((int)ss.Width + 40), img.Height - ((int)ss.Height + 40));
+
+                // Center
+                if (mark.Location == WatermarkLocation.Center)
+                    pt = new Point((img.Width / 2) - (((int)ss.Width / 2)), (img.Height / 2) - (((int)ss.Height / 2)));
+
+                // Print
+                gr.DrawString(mark.Body, font, sbrush, pt);
+            }
+
+            // Cleanup
+            gr.Dispose();
+
+            // Save to memory stream
+            img.Save(outputStream, ImageFormat.Jpeg);
         }
 
         /// <summary>
