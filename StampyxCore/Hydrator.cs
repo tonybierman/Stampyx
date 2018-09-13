@@ -12,7 +12,7 @@ namespace StampyxCore
     {
         private Hydrator() { }
 
-        public static void DehydrateTo(WatermarkCollection objects, string fname)
+        public static void DehydrateTo<T>(T config, string fname)
         {
             BinaryFormatter bf = new BinaryFormatter();
 
@@ -21,18 +21,18 @@ namespace StampyxCore
                 FileStream fsout = new FileStream(fname, FileMode.Create, FileAccess.Write, FileShare.None);
                 using (fsout)
                 {
-                    bf.Serialize(fsout, objects);
+                    bf.Serialize(fsout, config);
                 }
             }
             catch
             {
-                
+
             }
         }
 
-        public static WatermarkCollection HydrateFrom(string fname)
+        public static T HydrateFrom<T>(string fname) where T : new()
         {
-            WatermarkCollection retval = null;
+            T retval = default(T);
             BinaryFormatter bf = new BinaryFormatter();
 
             try
@@ -40,14 +40,14 @@ namespace StampyxCore
                 FileStream fsin = new FileStream(fname, FileMode.Open, FileAccess.Read, FileShare.None);
                 using (fsin)
                 {
-                    retval = (WatermarkCollection)bf.Deserialize(fsin);
+                    retval = (T)bf.Deserialize(fsin);
                 }
             }
             catch
             {
             }
 
-            return retval == null ? new WatermarkCollection() : retval;
+            return retval == null ? new T() : retval;
         }
     }
 }

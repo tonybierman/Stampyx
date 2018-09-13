@@ -28,26 +28,15 @@ namespace Stampyx
             this.folderBrowserDialogDest.ShowNewFolderButton = false;
             this.folderBrowserDialogDest.Description = "Select the target images directory";
 
-            // Load settings to member variables
-            m_config.PathSrc = Properties.Settings.Default.PathSource;
-            m_config.PathDest = Properties.Settings.Default.PathDest;
-            m_config.Prefix = Properties.Settings.Default.Prefix;
-            m_config.Body = Properties.Settings.Default.Body;
-            m_config.TextColor = Properties.Settings.Default.TextColor;
-            m_config.TextFont = Properties.Settings.Default.Font;
-            m_config.MarkLocation = Properties.Settings.Default.MarkLocation;
-            m_config.Marks = Hydrator.HydrateFrom("marks.binary");
+            // Load settings
+            m_config = Hydrator.HydrateFrom<ProcessConfig>("josie_config.stx");
 
             // Load settings to UI
             labelDestPath.Text = m_config.PathDest;
             labelSrcPath.Text = m_config.PathSrc;
             this.folderBrowserDialogSrc.SelectedPath = m_config.PathSrc;
             this.folderBrowserDialogDest.SelectedPath = m_config.PathDest;
-            textBoxBody.Text = string.IsNullOrEmpty(m_config.Body) ? ImageHelper.DEFAULT_BODY : m_config.Body;
             textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? ImageHelper.DEFAULT_PREFIX : m_config.Prefix;
-            lblColor.Text = StringHelper.SplitCamelCase(m_config.TextColor.Name);
-            lblFontFamily.Text = m_config.TextFont.FontFamily.Name;
-            lblLocation.Text = StringHelper.SplitCamelCase(m_config.MarkLocation.ToString());
 
             // Initialize background worker
             this.backgroundWorker1.WorkerSupportsCancellation = true;
@@ -60,17 +49,11 @@ namespace Stampyx
         private int Process(BackgroundWorker bw, bool isMaint)
         {
             // Refresh a few salient member variables with UI data
-            m_config.Body = textBoxBody.Text;
             m_config.Prefix = textBoxPrefix.Text;
             m_config.IsMaint = isMaint;
 
             // Save a few general settings
             Properties.Settings.Default.Prefix = m_config.Prefix;
-            Properties.Settings.Default.Body = m_config.Body;
-            Properties.Settings.Default.TextColor = m_config.TextColor;
-            Properties.Settings.Default.Font = m_config.TextFont;
-            Properties.Settings.Default.MarkLocation = m_config.MarkLocation;
-
             Properties.Settings.Default.Save();
 
             //m_config.Marks.Add(new Watermark()
@@ -86,7 +69,7 @@ namespace Stampyx
 
             //});
 
-            Hydrator.DehydrateTo(m_config.Marks, "marks.binary");
+            Hydrator.DehydrateTo(m_config, "josie_config.stx");
 
             // Process files in background
             return ImageHelper.ProcessFilesInBackground(bw, m_config);
@@ -226,7 +209,6 @@ namespace Stampyx
         {
             btnDestPath.Enabled = false;
             btnSrcPath.Enabled = false;
-            textBoxBody.Enabled = false;
             textBoxPrefix.Enabled = false;
             chkboxMaintMode.Enabled = false;
         }
@@ -235,42 +217,11 @@ namespace Stampyx
         {
             btnDestPath.Enabled = true;
             btnSrcPath.Enabled = true;
-            textBoxBody.Enabled = true;
             textBoxPrefix.Enabled = true;
             chkboxMaintMode.Enabled = true;
         }
 
         #endregion UI Helpers
-
-        private void btnColor_Click(object sender, EventArgs e)
-        {
-            FormWebColorPicker colorPicker = new FormWebColorPicker(m_config.TextColor);
-            if (colorPicker.ShowDialog(this) == DialogResult.OK)
-            {
-                m_config.TextColor = colorPicker.Pick;
-                lblColor.Text = StringHelper.SplitCamelCase(m_config.TextColor.Name);
-            }
-        }
-
-        private void btnFont_Click(object sender, EventArgs e)
-        {
-            fontDialog1.Font = m_config.TextFont;
-            if (fontDialog1.ShowDialog(this) == DialogResult.OK)
-            {
-                m_config.TextFont = fontDialog1.Font;
-                lblFontFamily.Text = m_config.TextFont.FontFamily.Name;
-            }
-        }
-
-        //private void btnLocation_Click(object sender, EventArgs e)
-        //{
-        //    FormWatermarkLocationPicker locationPicker = new FormWatermarkLocationPicker();
-        //    if (locationPicker.ShowDialog(this) == DialogResult.OK)
-        //    {
-        //        m_config.MarkLocation = locationPicker.MarkLocation;
-        //        lblLocation.Text = StringHelper.SplitCamelCase(m_config.MarkLocation.ToString());
-        //    }
-        //}
 
         private void btnLocation_Click(object sender, EventArgs e)
         {
