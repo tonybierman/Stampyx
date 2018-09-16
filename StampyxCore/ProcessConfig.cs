@@ -12,7 +12,7 @@ namespace StampyxCore
     /// Parameters for a watermaerked processing run
     /// </summary>
     [Serializable]
-    public class ProcessConfig
+    public class ProcessConfig : ICloneable
     {
         string m_pathSrc = string.Empty;
         string m_pathDest = string.Empty;
@@ -42,5 +42,10 @@ namespace StampyxCore
         public bool IsMaint { get => m_isMaint; set => m_isMaint = value; }
 
         public WatermarkCollection Marks { get => m_marks; set => m_marks = value; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

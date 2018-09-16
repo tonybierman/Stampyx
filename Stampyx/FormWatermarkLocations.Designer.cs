@@ -114,7 +114,7 @@
             this.Name = "FormWatermarkLocations";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
-            this.Text = "Edit a location";
+            this.Text = "Edit a watermark";
             this.ResumeLayout(false);
 
         }

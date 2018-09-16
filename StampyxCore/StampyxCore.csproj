@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="XmlHydrator.cs" />
     <Compile Include="Hydrator.cs" />
     <Compile Include="WatermarkCollection.cs" />
     <Compile Include="ImageHelper.cs" />

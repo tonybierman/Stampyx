@@ -43,12 +43,21 @@
             this.textBoxPrefix = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.chkboxMaintMode = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.statusStrip1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnSrcPath
             // 
-            this.btnSrcPath.Location = new System.Drawing.Point(12, 12);
+            this.btnSrcPath.Location = new System.Drawing.Point(12, 34);
             this.btnSrcPath.Name = "btnSrcPath";
             this.btnSrcPath.Size = new System.Drawing.Size(138, 23);
             this.btnSrcPath.TabIndex = 0;
@@ -69,7 +78,7 @@
             // labelSrcPath
             // 
             this.labelSrcPath.AutoSize = true;
-            this.labelSrcPath.Location = new System.Drawing.Point(12, 38);
+            this.labelSrcPath.Location = new System.Drawing.Point(12, 60);
             this.labelSrcPath.MaximumSize = new System.Drawing.Size(360, 32);
             this.labelSrcPath.Name = "labelSrcPath";
             this.labelSrcPath.Size = new System.Drawing.Size(41, 13);
@@ -78,7 +87,7 @@
             // 
             // btnDestPath
             // 
-            this.btnDestPath.Location = new System.Drawing.Point(12, 70);
+            this.btnDestPath.Location = new System.Drawing.Point(12, 85);
             this.btnDestPath.Name = "btnDestPath";
             this.btnDestPath.Size = new System.Drawing.Size(138, 23);
             this.btnDestPath.TabIndex = 8;
@@ -89,7 +98,7 @@
             // labelDestPath
             // 
             this.labelDestPath.AutoSize = true;
-            this.labelDestPath.Location = new System.Drawing.Point(12, 96);
+            this.labelDestPath.Location = new System.Drawing.Point(12, 111);
             this.labelDestPath.MaximumSize = new System.Drawing.Size(360, 32);
             this.labelDestPath.Name = "labelDestPath";
             this.labelDestPath.Size = new System.Drawing.Size(41, 13);
@@ -114,7 +123,7 @@
             // 
             // btnLocation
             // 
-            this.btnLocation.Location = new System.Drawing.Point(12, 121);
+            this.btnLocation.Location = new System.Drawing.Point(12, 138);
             this.btnLocation.Name = "btnLocation";
             this.btnLocation.Size = new System.Drawing.Size(218, 65);
             this.btnLocation.TabIndex = 9;
@@ -128,6 +137,7 @@
             this.textBoxPrefix.Name = "textBoxPrefix";
             this.textBoxPrefix.Size = new System.Drawing.Size(64, 20);
             this.textBoxPrefix.TabIndex = 3;
+            this.textBoxPrefix.TextChanged += new System.EventHandler(this.textBoxPrefix_TextChanged);
             // 
             // label1
             // 
@@ -149,6 +159,60 @@
             this.chkboxMaintMode.TabIndex = 4;
             this.chkboxMaintMode.Text = "Run Watermarker in folder sync mode";
             this.chkboxMaintMode.UseVisualStyleBackColor = true;
+            this.chkboxMaintMode.CheckedChanged += new System.EventHandler(this.chkboxMaintMode_CheckedChanged);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(242, 24);
+            this.menuStrip1.TabIndex = 13;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveasToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "&File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.openToolStripMenuItem.Text = "&Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.saveToolStripMenuItem.Text = "&Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // saveasToolStripMenuItem
+            // 
+            this.saveasToolStripMenuItem.Name = "saveasToolStripMenuItem";
+            this.saveasToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveasToolStripMenuItem.Text = "Save &as";
+            this.saveasToolStripMenuItem.Click += new System.EventHandler(this.saveasToolStripMenuItem_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // FormMain
             // 
@@ -157,6 +221,7 @@
             this.ClientSize = new System.Drawing.Size(242, 308);
             this.Controls.Add(this.btnLocation);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.btnRepeat);
             this.Controls.Add(this.labelDestPath);
             this.Controls.Add(this.btnDestPath);
@@ -172,6 +237,8 @@
             this.Text = "Stampyx |  The batch image marking tool";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -194,6 +261,14 @@
         private System.Windows.Forms.TextBox textBoxPrefix;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chkboxMaintMode;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveasToolStripMenuItem;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

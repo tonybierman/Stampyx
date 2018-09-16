@@ -16,10 +16,15 @@ namespace Stampyx
 {
     public partial class FormMain : Form
     {
-        ProcessConfig m_config = new ProcessConfig();
+        ProcessConfig m_config = null;
+        ProcessConfig m_configRevert = null;
+
+        string m_configFname = null;
 
         public FormMain()
         {
+            
+
             InitializeComponent();
 
             // Configure folder pickers
@@ -29,14 +34,14 @@ namespace Stampyx
             this.folderBrowserDialogDest.Description = "Select the target images directory";
 
             // Load settings
-            m_config = Hydrator.HydrateFrom<ProcessConfig>("josie_config.stx");
+            //m_config = Hydrator.HydrateFrom<ProcessConfig>("josie_config.stx");
 
             // Load settings to UI
-            labelDestPath.Text = m_config.PathDest;
-            labelSrcPath.Text = m_config.PathSrc;
-            this.folderBrowserDialogSrc.SelectedPath = m_config.PathSrc;
-            this.folderBrowserDialogDest.SelectedPath = m_config.PathDest;
-            textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? ImageHelper.DEFAULT_PREFIX : m_config.Prefix;
+            //labelDestPath.Text = m_config.PathDest;
+            //labelSrcPath.Text = m_config.PathSrc;
+            //this.folderBrowserDialogSrc.SelectedPath = m_config.PathSrc;
+            //this.folderBrowserDialogDest.SelectedPath = m_config.PathDest;
+            //textBoxPrefix.Text = string.IsNullOrEmpty(m_config.Prefix) ? ImageHelper.DEFAULT_PREFIX : m_config.Prefix;
 
             // Initialize background worker
             this.backgroundWorker1.WorkerSupportsCancellation = true;
@@ -48,29 +53,6 @@ namespace Stampyx
 
         private int Process(BackgroundWorker bw, bool isMaint)
         {
-            // Refresh a few salient member variables with UI data
-            m_config.Prefix = textBoxPrefix.Text;
-            m_config.IsMaint = isMaint;
-
-            // Save a few general settings
-            Properties.Settings.Default.Prefix = m_config.Prefix;
-            Properties.Settings.Default.Save();
-
-            //m_config.Marks.Add(new Watermark()
-            //{
-            //    Body = "American Heritage English Shepherds",
-            //    Location = WatermarkLocation.UpperRight
-            //});
-
-            //m_config.Marks.Add(new Watermark()
-            //{
-            //    Body = "© Tony Bierman",
-            //    Location = WatermarkLocation.LowerLeft
-
-            //});
-
-            Hydrator.DehydrateTo(m_config, "josie_config.stx");
-
             // Process files in background
             return ImageHelper.ProcessFilesInBackground(bw, m_config);
         }
@@ -94,9 +76,6 @@ namespace Stampyx
 
             m_config.PathSrc = path;
             labelSrcPath.Text = path;
-            Properties.Settings.Default.PathSource = path;
-
-            Properties.Settings.Default.Save();
         }
 
         private void btnDestPath_Click(object sender, EventArgs e)
@@ -116,14 +95,6 @@ namespace Stampyx
 
             m_config.PathDest = path;
             labelDestPath.Text = path;
-            Properties.Settings.Default.PathDest = path;
-
-            Properties.Settings.Default.Save();
-        }
-
-        private void textBoxBody_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btnGo_Click(object sender, EventArgs e)
@@ -230,5 +201,94 @@ namespace Stampyx
             {
             }
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.DefaultExt = "stx";
+            openFileDialog1.Title = "Browse Stampyx Files";
+            openFileDialog1.Filter = "Stampyx files (*.stx)|*.stx";
+            openFileDialog1.FilterIndex = 1;
+            DialogResult result = openFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                m_configFname = openFileDialog1.FileName;
+                m_config = Hydrator.HydrateFrom<ProcessConfig>(m_configFname);
+                m_configRevert = Hydrator.HydrateFrom<ProcessConfig>(m_configFname);
+                toolStripStatusLabel1.Text = m_configFname;
+                labelSrcPath.Text = m_config.PathSrc;
+                labelDestPath.Text = m_config.PathDest;
+                textBoxPrefix.Text = m_config.Prefix;
+                chkboxMaintMode.Checked = m_config.IsMaint;
+            }
+
+            if (m_configFname == String.Empty)
+            {
+                toolStripStatusLabel1.Text = "Invalid file.";
+                return;
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            System.Environment.Exit(0);
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(m_configFname))
+            {
+                saveFileDialog1.FileName = m_configFname;
+                saveFileDialog1.DefaultExt = "stx";
+                saveFileDialog1.Title = "Save Stampyx File";
+                saveFileDialog1.Filter = "Stampyx files (*.stx)|*.stx";
+                saveFileDialog1.FilterIndex = 1;
+                DialogResult result = saveFileDialog1.ShowDialog();
+
+                // If the file name is not an empty string open it for saving.  
+                if (saveFileDialog1.FileName != "")
+                {
+                    Hydrator.DehydrateTo(m_config, saveFileDialog1.FileName);
+                    toolStripStatusLabel1.Text = "File saved.";
+                    m_configFname = saveFileDialog1.FileName;
+                }
+            }
+            else
+            {
+                Hydrator.DehydrateTo(m_config, m_configFname);
+                toolStripStatusLabel1.Text = "File saved.";
+            }
+        }
+
+        private void saveasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.FileName = m_configFname;
+            saveFileDialog1.DefaultExt = "stx";
+            saveFileDialog1.Title = "Save Stampyx File";
+            saveFileDialog1.Filter = "Stampyx files (*.stx)|*.stx";
+            saveFileDialog1.FilterIndex = 1;
+            DialogResult result = saveFileDialog1.ShowDialog();
+
+            // If the file name is not an empty string open it for saving.  
+            if (saveFileDialog1.FileName != "")
+            {
+                Hydrator.DehydrateTo(m_config, saveFileDialog1.FileName);
+                toolStripStatusLabel1.Text = "File saved.";
+                m_configFname = saveFileDialog1.FileName;
+            }
+        }
+
+        private void chkboxMaintMode_CheckedChanged(object sender, EventArgs e)
+        {
+            m_config.IsMaint = chkboxMaintMode.Checked;
+        }
+
+        private void textBoxPrefix_TextChanged(object sender, EventArgs e)
+        {
+            m_config.Prefix = textBoxPrefix.Text;
+        }
+
+
     }
 }
