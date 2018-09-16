@@ -106,12 +106,14 @@ namespace StampyxCore
                     foreach (FileInfo file in folder)
                     {
                         // Check for cancellation from parent thread
-                        if (bw.CancellationPending)
+                        if (bw != null && bw.CancellationPending)
                             break;
 
                         c++;
                         double progress = (double)c / (double)totalfiles;
-                        bw.ReportProgress((int)(progress * 100));
+
+                        if(bw != null)
+                            bw.ReportProgress((int)(progress * 100));
 
                         // Debug
                         if (c % 100 == 0)
