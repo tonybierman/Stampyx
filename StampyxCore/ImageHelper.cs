@@ -221,6 +221,7 @@ namespace StampyxCore
             Graphics gr = null;
             float upperBackground = 0;
             float lowerBackground = 0;
+            int pad = 2;
 
             // Determine text background heights
             foreach (Watermark mark in marks)
@@ -252,10 +253,10 @@ namespace StampyxCore
             // Draw text backgrounds
             if (upperBackground > 0)
                 using (Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
-                    gr.FillRectangle(brush, 0, 0, img.Width, upperBackground);
+                    gr.FillRectangle(brush, 0, 0, img.Width, upperBackground + (pad * 2));
             if (lowerBackground > 0)
                 using (Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
-                    gr.FillRectangle(brush, 0, img.Height - lowerBackground, img.Width, lowerBackground);
+                    gr.FillRectangle(brush, 0, img.Height - lowerBackground - (pad * 2), img.Width, lowerBackground + (pad * 2));
 
             // Draw strings
             foreach (Watermark mark in marks)
@@ -267,19 +268,19 @@ namespace StampyxCore
                 SizeF ss = gr.MeasureString(mark.Body, font);
 
                 // Lower left
-                Point pt = new Point(40, img.Height - ((int)ss.Height + 40));
+                Point pt = new Point(pad, img.Height - ((int)ss.Height - pad));
 
                 // Upper left
                 if (mark.Location == WatermarkLocation.UpperLeft)
-                    pt = new Point(40, 40);
+                    pt = new Point(pad, pad);
 
                 // Upper right
                 if (mark.Location == WatermarkLocation.UpperRight)
-                    pt = new Point(img.Width - ((int)ss.Width + 40), 40);
+                    pt = new Point(img.Width - ((int)ss.Width + pad), pad);
 
                 // Lower right
                 if (mark.Location == WatermarkLocation.LowerRight)
-                    pt = new Point(img.Width - ((int)ss.Width + 40), img.Height - ((int)ss.Height + 40));
+                    pt = new Point(img.Width - ((int)ss.Width + pad), img.Height - ((int)ss.Height - pad));
 
                 // Center
                 if (mark.Location == WatermarkLocation.Center)
@@ -328,19 +329,19 @@ namespace StampyxCore
             SizeF ss = gr.MeasureString(watermarkText, font);
 
             // Lower left
-            Point pt = new Point(40, img.Height - ((int)ss.Height + 40));
+            Point pt = new Point(4, img.Height - ((int)ss.Height + 4));
 
             // Upper left
             if(location == WatermarkLocation.UpperLeft)
-                pt = new Point(40, 40);
+                pt = new Point(4, 4);
 
             // Upper right
             if(location == WatermarkLocation.UpperRight)
-                pt = new Point(img.Width - ((int)ss.Width + 40), 40);
+                pt = new Point(img.Width - ((int)ss.Width + 4), 4);
 
             // Lower right
             if(location == WatermarkLocation.LowerRight)
-                pt = new Point(img.Width - ((int)ss.Width + 40), img.Height - ((int)ss.Height + 40));
+                pt = new Point(img.Width - ((int)ss.Width + 4), img.Height - ((int)ss.Height + 4));
 
             // Center
             if (location == WatermarkLocation.Center)
