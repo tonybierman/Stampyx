@@ -48,6 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="hawkeye_config.stx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="josie_config.stx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

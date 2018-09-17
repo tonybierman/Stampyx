@@ -219,30 +219,49 @@ namespace StampyxCore
         {
             Image img = Image.FromStream(fs);
             Graphics gr = null;
+            float upperBackground = 0;
+            float lowerBackground = 0;
 
+            // Determine text background heights
             foreach (Watermark mark in marks)
             {
                 Font font = mark.TextFont;
 
-                // Font size check
-                //if (font.Size > img.Width / 100)
-                //    font = new Font(font.FontFamily, font.Size / 2, font.Style);
+                if ((mark.Location == WatermarkLocation.UpperLeft || mark.Location == WatermarkLocation.UpperRight) && font.Height > upperBackground)
+                    upperBackground = font.Height;
 
-                    SolidBrush sbrush = new SolidBrush(mark.TextColor);
-                try
-                {
-                    gr = Graphics.FromImage(img);
-                    gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
-                    //gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-                }
-                catch (Exception ex)
-                {
-                    Image img1 = img;
-                    img = new Bitmap(img1, img.Width, img.Height);
-                    gr = Graphics.FromImage(img);
-                    gr.DrawImage(img1, new Rectangle(0, 0, img.Width, img.Height));//, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel);
-                    img1.Dispose();
-                }
+                if ((mark.Location == WatermarkLocation.LowerLeft || mark.Location == WatermarkLocation.LowerRight) && font.Height > lowerBackground)
+                    lowerBackground = font.Height;
+            }
+
+            try
+            {
+                gr = Graphics.FromImage(img);
+                gr.DrawImage(img, new Rectangle(0, 0, img.Width, img.Height));
+                //gr.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            }
+            catch (Exception ex)
+            {
+                Image img1 = img;
+                img = new Bitmap(img1, img.Width, img.Height);
+                gr = Graphics.FromImage(img);
+                gr.DrawImage(img1, new Rectangle(0, 0, img.Width, img.Height));//, 0, 0, img.Width, img.Height, GraphicsUnit.Pixel);
+                img1.Dispose();
+            }
+
+            // Draw text backgrounds
+            if (upperBackground > 0)
+                using (Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
+                    gr.FillRectangle(brush, 0, 0, img.Width, upperBackground);
+            if (lowerBackground > 0)
+                using (Brush brush = new SolidBrush(Color.FromArgb(128, 0, 0, 0)))
+                    gr.FillRectangle(brush, 0, img.Height - lowerBackground, img.Width, lowerBackground);
+
+            // Draw strings
+            foreach (Watermark mark in marks)
+            {
+                Font font = mark.TextFont;
+                SolidBrush sbrush = new SolidBrush(mark.TextColor);
 
                 // The position where to draw the watermark on the image
                 SizeF ss = gr.MeasureString(mark.Body, font);
