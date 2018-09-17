@@ -77,8 +77,6 @@ namespace StampyxCore
         /// <returns></returns>
         public static int ProcessFilesInBackground(BackgroundWorker bw, ProcessConfig config)
         {
-            // Method variables
-            //watermarkText = watermarkText.Replace(@"\n", Environment.NewLine);
             Image img = null;
             string pathSource = String.Empty;
             string pathTarget = String.Empty;
@@ -214,6 +212,14 @@ namespace StampyxCore
         //    return retval;
         //}
 
+        public static string WatermarkTextProcessor(string input)
+        {
+            string retval = input;
+
+            retval = retval.Replace(@"\n", Environment.NewLine);
+
+            return retval;
+        }
 
         public static void AddWatermarks(FileStream fs, WatermarkCollection marks, Stream outputStream)
         {
@@ -263,7 +269,7 @@ namespace StampyxCore
             {
                 Font font = mark.TextFont;
                 SolidBrush sbrush = new SolidBrush(mark.TextColor);
-
+                
                 // The position where to draw the watermark on the image
                 SizeF ss = gr.MeasureString(mark.Body, font);
 

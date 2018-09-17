@@ -23,8 +23,6 @@ namespace Stampyx
 
         public FormMain()
         {
-            
-
             InitializeComponent();
 
             // Configure folder pickers
@@ -62,6 +60,7 @@ namespace Stampyx
         private void btnSrcPath_Click(object sender, EventArgs e)
         {
             string path = String.Empty;
+            folderBrowserDialogSrc.SelectedPath = m_config.PathSrc;
             DialogResult result = folderBrowserDialogSrc.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -81,6 +80,7 @@ namespace Stampyx
         private void btnDestPath_Click(object sender, EventArgs e)
         {
             string path = String.Empty;
+            folderBrowserDialogDest.SelectedPath = m_config.PathDest;
             DialogResult result = folderBrowserDialogDest.ShowDialog();
             if (result == DialogResult.OK)
             {
