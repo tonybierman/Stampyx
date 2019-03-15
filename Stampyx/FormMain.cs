@@ -32,7 +32,7 @@ namespace Stampyx
             this.folderBrowserDialogDest.Description = "Select the target images directory";
 
             // Load settings
-            //m_config = Hydrator.HydrateFrom<ProcessConfig>("josie_config.stx");
+            m_config = Hydrator.HydrateFrom<ProcessConfig>("josie_config.stx");
 
             // Load settings to UI
             //labelDestPath.Text = m_config.PathDest;

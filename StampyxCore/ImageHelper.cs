@@ -225,20 +225,36 @@ namespace StampyxCore
         {
             Image img = Image.FromStream(fs);
             Graphics gr = null;
+            int pad = 2;
+            float actualFontSize = img.Height / 1000;
+            //if (actualFontSize < 12)
+            //    actualFontSize = 12;
+
+            
+
+            float factor = img.Height > img.Width ? img.Height : img.Width;
+
+            if (actualFontSize < img.Height * .005)
+                actualFontSize = Convert.ToInt32(factor * .005);
+
             float upperBackground = 0;
             float lowerBackground = 0;
-            int pad = 2;
+
 
             // Determine text background heights
             foreach (Watermark mark in marks)
             {
+                if (string.IsNullOrEmpty(mark.Body))
+                    continue;
+
                 Font font = mark.TextFont;
+                font = new Font(font.Name, actualFontSize);
 
-                if ((mark.Location == WatermarkLocation.UpperLeft || mark.Location == WatermarkLocation.UpperRight) && font.Height > upperBackground)
-                    upperBackground = font.Height;
+                if ((mark.Location == WatermarkLocation.UpperLeft || mark.Location == WatermarkLocation.UpperRight))
+                    upperBackground = font.Height * 2;
 
-                if ((mark.Location == WatermarkLocation.LowerLeft || mark.Location == WatermarkLocation.LowerRight) && font.Height > lowerBackground)
-                    lowerBackground = font.Height;
+                if ((mark.Location == WatermarkLocation.LowerLeft || mark.Location == WatermarkLocation.LowerRight))
+                    lowerBackground = font.Height * 2;
             }
 
             try
@@ -268,6 +284,10 @@ namespace StampyxCore
             foreach (Watermark mark in marks)
             {
                 Font font = mark.TextFont;
+                if (img.VerticalResolution == 96)
+                    actualFontSize = actualFontSize * 1.25f;
+                font = new Font(font.Name, actualFontSize);
+
                 SolidBrush sbrush = new SolidBrush(mark.TextColor);
                 
                 // The position where to draw the watermark on the image
@@ -294,6 +314,8 @@ namespace StampyxCore
 
                 // Print
                 gr.DrawString(mark.Body, font, sbrush, pt);
+                // DEBUG gr.DrawString(Convert.ToString(actualFontSize), font, sbrush, pt);
+                // gr.DrawString(Convert.ToString(img.VerticalResolution), font, sbrush, pt);
             }
 
             // Cleanup
